@@ -1,0 +1,12 @@
+{
+    "name": "projeto/poupemais",
+    "description": "Criando site Poupemais",
+
+    "autoload": {
+        "psr-4": {
+            "App\\":"../app/",
+            "Src\\":"../src/"
+        }
+    }
+
+}
