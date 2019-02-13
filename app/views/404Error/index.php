@@ -8,6 +8,5 @@
 </head>
 <body>
     <h1>404 - Error</h1>
-    <?php echo $this->msg; ?>
 </body>
 </html>

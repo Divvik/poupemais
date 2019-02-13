@@ -13,7 +13,6 @@ class ErrorController extends Controllers
     # Declarando metodo construct
     public function index()
     {   
-        $this->view->msg = 'Esta página não existe';
         $this->view->render('404Error/index');
     }
 }

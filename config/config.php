@@ -12,8 +12,8 @@ define('DIRREQ', "{$_SERVER['DOCUMENT_ROOT']}/poupemais{$barra}{$pastaInterna}")
 // Atalhos
 define('DS', DIRECTORY_SEPARATOR);
 // Diretorio assets
-define('DIRCSS', DIRREQ . 'public/assets/css/');
-define('DIRJS', DIRREQ . 'public/assets/js/');
+define('DIRCSS', DIRPAGE . '/public/assets/css/');
+define('DIRJS', DIRPAGE . '/public/assets/js/');
 define('DIRIMG', DIRPAGE . '/public/assets/img/');
 
 // Pastas do diretorio App

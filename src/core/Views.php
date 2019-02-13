@@ -2,13 +2,17 @@
 
 # Declarando namespace
 namespace Src\Core;
-
+use Exception;
 # Classe para renderizar as views
 class Views
 {
     # Redenriza as views
     public function render($viewName, $data=[])
-    {
-        require_once VIEWS . $viewName . '.phtml';
+    {   
+        if(file_exists(VIEWS . $viewName . '.php')) {
+            require_once VIEWS . $viewName . '.php';
+        } else {
+            throw new Exception("Arquvio não encontrado!");
+        }
     }
 }
