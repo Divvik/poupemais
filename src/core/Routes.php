@@ -25,13 +25,15 @@ class Routes
                 call_user_func_array([$this->controller, $this->action],$this->param);
             }
         } else {
-            require_once LAYOUTERROR;
+            $error = "App\\Controllers\\ErrorController";
+            $controller = new $error;
+            $controller->index();
         }
     }
 
     # Capturando a url
     protected function parseUrl()
-    {
+    {   
         $url = explode('/', rtrim($_GET['url'],'/'));
 
         if(isset($url[0]) && $url[0] != '') {
