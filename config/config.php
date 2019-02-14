@@ -11,6 +11,7 @@ define('DIRREQ', "{$_SERVER['DOCUMENT_ROOT']}/poupemais{$barra}{$pastaInterna}")
 
 // Atalhos
 define('DS', DIRECTORY_SEPARATOR);
+
 // Diretorio assets
 define('DIRCSS', DIRPAGE . '/public/assets/css/');
 define('DIRJS', DIRPAGE . '/public/assets/js/');
@@ -21,11 +22,9 @@ define('CONTROLLERS', DIRREQ . 'app/controllers/');
 define('MODELS', DIRREQ . 'app/models/');
 define('VIEWS', DIRREQ . 'app/views/');
 
-define('LAYOUTERROR', DIRREQ . 'app/views/404Error/404.phtml');
-
 // Acesso DB
 define('HOST_NAME', 'localhost');
-define('DB_NAME', 'poupemais');
+define('DB_NAME', 'db_poupemais');
 define('DB_USER', 'root');
 define('DB_PASSWORD', '');
 define('CHAR_SET', 'utf8');

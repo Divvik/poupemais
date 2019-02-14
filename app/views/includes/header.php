@@ -17,6 +17,7 @@
 					<li><a href="<?= DIRPAGE . '/home/sobre/'?>">Sobre</a></li>
 					<li><a href="<?= DIRPAGE . '/home/investimento/'?>">Investimento</a></li>
 					<li><a href="<?= DIRPAGE . '/home/contato/'?>">Contato</a></li>
+					<li><a href="<?= DIRPAGE . '/login/index/'?>">Entrar</a></li>
 				</ul>
 			</nav>
 		</div>

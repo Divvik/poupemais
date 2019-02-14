@@ -5,5 +5,5 @@ body {font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen
 .grid {display: grid; grid-template-columns: 1fr 1fr; align-items: center;}
 header {padding: .5em 0;}
 header nav ul {float: right;}
-header ul li {display: inline; margin-left: 1.6em;}
+header ul li {display: inline; margin-left: 1.25em;}
 
