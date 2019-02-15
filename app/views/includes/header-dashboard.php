@@ -8,8 +8,14 @@
 	<script src= "<?= DIRJS . 'custom.js'; ?>"></script>
 </head>
 <body>
-	<header>
-		<!-- <div class="container grid">
-			<h1>Entrar</h1>
-		</div> -->
+	<header class="header-login">
+		<div class="container grid">
+			<h1>Logo</h1>
+			<nav>
+				<ul>
+					<li></li>
+					<li><a href="<?= DIRPAGE . '/home/index/'?>">logout</a></li>
+				</ul>
+			</nav>
+		</div>
 	</header>

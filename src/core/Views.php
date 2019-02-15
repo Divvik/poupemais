@@ -10,6 +10,7 @@ class Views
     public function render($viewName, $data=[])
     {   
         if(file_exists(VIEWS . $viewName . '.php')) {
+            extract($data);
             require_once VIEWS . $viewName . '.php';
         } else {
             throw new Exception("Arquvio não encontrado!");
