@@ -1,3 +1,3 @@
-$(document).ready(function() {
-    alert('Welcome! Poupemais');
-});
+// $(document).ready(function() {
+//     alert('Welcome! Poupemais');
+// });
