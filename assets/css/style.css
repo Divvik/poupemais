@@ -1,1 +1,206 @@
+* {
+	box-sizing: border-box;
+}
 
+body {
+	padding: 0 auto;
+	margin: 0 auto;
+	width: 100%;
+	height: 100%;
+	font-family: calibri;
+}
+
+#imgP {
+	width: 90%;
+}
+
+#logo {
+	width: 120pt;
+	margin-left: 10%;
+	margin-top: 5pt;
+}
+
+section {
+	width: 60%;
+	float: left;
+	margin-top: 80pt;
+}
+
+aside {
+	width: 40%;
+	float: left;
+	padding: 2%;
+	margin-top: 60pt;
+}
+
+#menu {
+	width: 100%;
+	position: fixed;
+	z-index: 1;
+	background-color: white;
+	box-shadow: 1pt 0pt 10pt 0pt steelblue;
+}
+
+#left {
+	width: 40%;
+	height: 60pt;
+	background-color: white;
+	float: left;
+}
+
+#right {
+	width: 60%;
+	height: 60pt;
+	background-color: white;
+	float: right;
+}
+
+#right nav ul li {
+	list-style-type: none;
+	display: inline-block;
+	margin-top: -18pt;
+}
+
+#right nav li a {
+	text-decoration: none;
+}
+
+#right nav li a p {
+	font-weight: bold;
+	font-size: 17pt;
+	color: steelblue;
+	margin-right: 15pt;
+	padding: 8pt;
+	border-radius: 8pt;
+}
+
+#right nav li a:hover p {
+	/*background-color: #EEE;*/
+	color: black;
+}
+
+footer {
+	clear: both;
+	width: 100%;
+	height: 25pt;
+	background-color: steelblue;
+}
+
+footer p {
+	font-size: 12pt;
+	text-align: center;
+	color: white;
+	font-weight: bold;
+	padding-top: 0.5%;
+}
+
+#Secundario h1 {
+	font-size: 32pt;
+	color: steelblue;
+}
+
+#Secundario h2 {
+	font-size: 22pt;
+	color: steelblue;
+}
+
+#Secundario h3 {
+	font-size: 20pt;
+}
+
+#Secundario h3 span a{
+	text-decoration: none;
+	color: white;
+	background-color: steelblue;
+	padding: 8pt;
+	border-radius: 8pt;
+}
+
+#Secundario h3 span a:hover {
+	background-color: #DDD;
+	color: black;
+}
+
+#menu_icon {
+display: none;
+}
+
+@media screen and (max-width: 420px) {
+	/* Smartphone */
+		#menu_icon {
+		display: block;
+		width: 45%;
+		height: 35pt;
+		float: left;
+		margin-left: 5%;
+		}
+
+		#left {
+			width: 50%;
+			height: 35pt;
+		}
+
+		#right {
+			display: none;
+		}
+
+		#menu_oculto {
+			display: block;
+			width: 100%;
+			height: 100%;
+			text-align: center;
+		}
+
+		#logo {
+			margin-top: 0pt;
+			width: left;
+			width: 50%;
+			float: left;
+		}
+
+		#Secundario {
+			float: left;
+			width: 100%;
+		}
+
+		section {
+			width: 100%;
+		}
+
+		#imgP {
+			margin-top: -40pt;
+			width: 100%;
+		}
+
+		aside {
+			margin-top: -30pt;
+		}
+
+		#Secundario h1 {
+			font-size: 17pt;
+		}
+
+		#Secundario h2 {
+			font-size: 14pt;
+		}
+
+		#Secundario h3 {
+			font-size: 11pt;
+		}
+
+		footer p {
+			font-size: 8pt;
+		}
+
+		footer {
+			position: absolute;
+			bottom: 0;
+		}
+
+	}
+}
+
+
+@media screen and (max-width: 1024px) {
+	/* Tablet */
+}
