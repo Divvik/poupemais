@@ -1,3 +1,5 @@
+<?php if(!defined('DIRREQ')) exit; ?>
+
 <?php require_once VIEWS . 'includes/header-login.php' ?>
 	<div class="container">
 		<h1>Cadastrar</h1>

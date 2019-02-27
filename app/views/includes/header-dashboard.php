@@ -1,3 +1,5 @@
+<?php if(!defined('DIRREQ')) exit; ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -13,8 +15,8 @@
 			<h1>Logo</h1>
 			<nav>
 				<ul>
-					<li></li>
-					<li><a href="<?= DIRPAGE . '/home/index/'?>">logout</a></li>
+					<li><?=$_SESSION['login'];?></li>
+					<li><a href="<?= DIRPAGE . '/login/logout'?>">logout</a></li>
 				</ul>
 			</nav>
 		</div>

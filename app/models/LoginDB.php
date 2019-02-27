@@ -4,6 +4,7 @@
 namespace App\Models;
 
 # use
+use PDO;
 use Src\Core\Models;
 use Src\Core\Session;
 
@@ -17,24 +18,39 @@ class LoginDB extends Models
     public function lista()
     {   
 
-        $sql = "SELECT idUsuario FROM usuario WHERE nome = :nome AND senha = MD5(:senha)";
+        $sql = "SELECT * FROM usuario WHERE login = :login AND senha = MD5(:senha)";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(array(
-           ':nome' => $_POST['c_login'],
+           ':login' => $_POST['c_login'],
            ':senha' => $_POST['c_password'] 
         ));
 
-        //$data = $stmt->fetchAll();
         $count = $stmt->rowCount();
-
+        
         if($count > 0) {
-            // login
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
             Session::init();
-            Session::set('loggedIn', true);
+            Session::set('id', $data['id']);
+            Session::set('login', $data['login']);
             header('location: ../dashboard');
         } else {
-            // Show error!
+            //Show error!
             header('location: ../login');
+        }
+    }
+
+    public function select()
+    {   
+
+        $sql = "SELECT * FROM usuario";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+
+        $count = $stmt->rowCount();
+        
+        if($count > 0) {
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $data;
         }
     }
 }

@@ -3,8 +3,10 @@
 # Declarando no namespace
 namespace App\Controllers;
 
+# Use
 use Src\Core\Controllers;
 use App\Models\LoginDB;
+use Src\Core\Session;
 
 # Declarando a classe Sobre
 class LoginController extends Controllers
@@ -22,10 +24,18 @@ class LoginController extends Controllers
     
     public function validaUsers()
     {
-        
         $usuario = new LoginDB;
-        $usuario->lista();
-        
+        echo $usuario->lista();        
+    }
+
+    public function logout()
+    {   
+        Session::init();
+        if(isset($_SESSION['id'])) {
+            Session::destroy();
+            header('location: ../login');
+            exit();
+        }
     }
 
 }

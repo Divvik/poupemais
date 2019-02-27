@@ -6,6 +6,7 @@ namespace App\Controllers;
 # use
 use Src\Core\Controllers;
 use Src\Core\Session;
+use App\Models\LoginDB;
 
 # Classe DashboardController
 class DashboardController extends Controllers
@@ -13,19 +14,19 @@ class DashboardController extends Controllers
     public function __construct()
     {   
         parent::__construct();
-        
         Session::init();
-        $logged = Session::get('loggedIn');
-       
-        if($logged == false) {
-            Session::destroy();
-            header('location: ../login');
-            exit; 
-        } 
     }
     
     public function index()
     {   
-        $this->view->render('dashboard/index');
+        if(!isset($_SESSION['id'])) {
+            Session::destroy();
+            header('location:' . DIRPAGE . '/login');
+            exit();
+        } else {
+            $dados = new LoginDB();
+            $usuario = $dados->select();
+            $this->view->render('dashboard/index',['usuario' => $usuario]);
+        }
     }
 }
