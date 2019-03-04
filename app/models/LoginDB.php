@@ -15,15 +15,13 @@ class LoginDB extends Models
         parent::__construct();
     }
 
-    public function lista()
-    {   
-
+    public function select($login, $pass)
+    {           
         $sql = "SELECT * FROM usuario WHERE login = :login AND senha = MD5(:senha)";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute(array(
-           ':login' => $_POST['c_login'],
-           ':senha' => $_POST['c_password'] 
-        ));
+        $stmt->bindParam(':login', $login);
+        $stmt->bindParam(':senha', $pass);
+        $stmt->execute();
 
         $count = $stmt->rowCount();
         
@@ -32,14 +30,13 @@ class LoginDB extends Models
             Session::init();
             Session::set('id', $data['id']);
             Session::set('login', $data['login']);
-            header('location: ../dashboard');
         } else {
             //Show error!
             header('location: ../login');
         }
     }
 
-    public function select()
+    public function lista()
     {   
 
         $sql = "SELECT * FROM usuario";

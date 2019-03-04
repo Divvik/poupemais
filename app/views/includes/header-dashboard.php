@@ -4,15 +4,15 @@
 <html lang="pt-br">
 <head>
 	<meta charset="utf-8">
-	<title>Poupemais</title>
+	<title>Dashboard - Poupemais</title>
 	<link rel="stylesheet" href="<?= DIRCSS . 'style.css'; ?>">
 	<script src= "<?= DIRJS . 'jquery.js'; ?>"></script>
 	<script src= "<?= DIRJS . 'custom.js'; ?>"></script>
 </head>
 <body>
-	<header class="header-login">
+	<header class="header-dashboard">
 		<div class="container grid">
-			<h1>Logo</h1>
+			<h1>dashboard</h1>
 			<nav>
 				<ul>
 					<li><?=$_SESSION['login'];?></li>

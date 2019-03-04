@@ -19,13 +19,13 @@ class DashboardController extends Controllers
     
     public function index()
     {   
-        if(!isset($_SESSION['id'])) {
+        if(!isset($_SESSION['id']) && empty($_SESSION['id'])) {
             Session::destroy();
             header('location:' . DIRPAGE . '/login');
             exit();
         } else {
             $dados = new LoginDB();
-            $usuario = $dados->select();
+            $usuario = $dados->lista();
             $this->view->render('dashboard/index',['usuario' => $usuario]);
         }
     }

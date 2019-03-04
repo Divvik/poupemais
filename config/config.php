@@ -28,3 +28,12 @@ define('DB_NAME', 'db_poupemais');
 define('DB_USER', 'root');
 define('DB_PASSWORD', '');
 define('CHAR_SET', 'utf8');
+
+// Carregamento das Functions
+function autoloadFunction($name) {
+    if(file_exists(DIRREQ . '/helpers/' . $name .'.php')) {
+        require_once DIRREQ . '/helpers/' . $name . '.php';
+    } else {
+            throw new Exception("Esta função não existe");
+    }
+}
