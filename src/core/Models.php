@@ -9,6 +9,10 @@ abstract class Models
 
     public function __construct()
     {
-        $this->db = new PDO("mysql:host=" . HOST_NAME . ";dbname=" . DB_NAME, DB_USER,DB_PASSWORD);
+        try {
+            $this->db = new PDO("mysql:host=" . HOST_NAME . ";dbname=" . DB_NAME, DB_USER,DB_PASSWORD);
+        } catch (\PDOException $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
     }
 }

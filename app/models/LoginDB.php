@@ -4,6 +4,7 @@
 namespace App\Models;
 
 # use
+use PDO;
 use Src\Core\Models;
 use Src\Core\Session;
 
@@ -14,27 +15,39 @@ class LoginDB extends Models
         parent::__construct();
     }
 
+    public function select($login, $pass)
+    {           
+        $sql = "SELECT * FROM usuario WHERE login = :login AND senha = MD5(:senha)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':login', $login);
+        $stmt->bindParam(':senha', $pass);
+        $stmt->execute();
+
+        $count = $stmt->rowCount();
+        
+        if($count > 0) {
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            Session::init();
+            Session::set('id', $data['id']);
+            Session::set('login', $data['login']);
+        } else {
+            //Show error!
+            header('location: ../login');
+        }
+    }
+
     public function lista()
     {   
 
-        $sql = "SELECT idUsuario FROM usuario WHERE nome = :nome AND senha = MD5(:senha)";
+        $sql = "SELECT * FROM usuario";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute(array(
-           ':nome' => $_POST['c_login'],
-           ':senha' => $_POST['c_password'] 
-        ));
+        $stmt->execute();
 
-        //$data = $stmt->fetchAll();
         $count = $stmt->rowCount();
-
+        
         if($count > 0) {
-            // login
-            Session::init();
-            Session::set('loggedIn', true);
-            header('location: ../dashboard');
-        } else {
-            // Show error!
-            header('location: ../login');
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $data;
         }
     }
 }

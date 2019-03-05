@@ -1,3 +1,5 @@
+<?php if(!defined('DIRREQ')) exit; ?>
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
