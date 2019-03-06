@@ -10,48 +10,45 @@ body {
 	font-family: calibri;
 }
 
-#imgP {
-	width: 90%;
-}
-
 #logo {
 	width: 120pt;
-	margin-left: 10%;
+	margin-left: 25%;
 	margin-top: 5pt;
 }
 
 section {
-	width: 60%;
+	width: 100%;
+	height: 100%;
 	float: left;
-	margin-top: 80pt;
+	background-color: skyblue;
 }
 
 aside {
-	width: 40%;
+	width: 30%;
+	background-color: pink;
 	float: left;
-	padding: 2%;
-	margin-top: 60pt;
+	margin: 6.2%;
+	padding: 2.5%;
+	position: absolute;
+	margin-top: 70pt;
 }
 
 #menu {
 	width: 100%;
 	position: fixed;
 	z-index: 1;
-	background-color: white;
 	box-shadow: 1pt 0pt 10pt 0pt steelblue;
 }
 
 #left {
-	width: 40%;
+	width: 30%;
 	height: 60pt;
-	background-color: white;
 	float: left;
 }
 
 #right {
-	width: 60%;
+	width: 70%;
 	height: 60pt;
-	background-color: white;
 	float: right;
 }
 
@@ -61,6 +58,12 @@ aside {
 	margin-top: -18pt;
 }
 
+#right nav ul li a span p {
+	border: 2pt solid white;
+	border-radius: 2pt;
+	margin-left: 30pt;
+}
+
 #right nav li a {
 	text-decoration: none;
 }
@@ -68,76 +71,72 @@ aside {
 #right nav li a p {
 	font-weight: bold;
 	font-size: 17pt;
-	color: steelblue;
-	margin-right: 15pt;
+	color: white;
+	margin-right: 18pt;
+	margin-left: 6pt;
 	padding: 8pt;
 	border-radius: 8pt;
 }
 
 #right nav li a:hover p {
-	/*background-color: #EEE;*/
 	color: black;
-}
-
-footer {
-	clear: both;
-	width: 100%;
-	height: 25pt;
-	background-color: steelblue;
-}
-
-footer p {
-	font-size: 12pt;
-	text-align: center;
-	color: white;
-	font-weight: bold;
-	padding-top: 0.5%;
 }
 
 #Secundario h1 {
-	font-size: 32pt;
-	color: steelblue;
+	font-size: 25pt;
+	color: white;
+	font-weight: bold;
 }
 
 #Secundario h2 {
-	font-size: 22pt;
-	color: steelblue;
+	margin-top: 70pt;
 }
 
-#Secundario h3 {
+#Secundario h2 span a {
 	font-size: 20pt;
-}
-
-#Secundario h3 span a{
-	text-decoration: none;
 	color: white;
-	background-color: steelblue;
-	padding: 8pt;
-	border-radius: 8pt;
+	text-decoration: none;
+	padding: 6pt 25pt;
+	border-radius: 50pt;
+	background-color: black;
 }
 
-#Secundario h3 span a:hover {
-	background-color: #DDD;
-	color: black;
+#Secundario h2 span a:hover {
+
 }
 
 #menu_icon {
-display: none;
+	display: none;
 }
 
 @media screen and (max-width: 420px) {
 	/* Smartphone */
-		#menu_icon {
-		display: block;
-		width: 45%;
-		height: 35pt;
-		float: left;
-		margin-left: 5%;
+
+		#menu {
+			width: 100%;
+			height: 35pt;
+		}
+
+		img#logo {
+			float: right;
+			width: 40%;
 		}
 
 		#left {
-			width: 50%;
-			height: 35pt;
+			height: 30pt;
+			width: 190pt;
+			margin-top: -7pt;
+		}
+
+		#menu_icon {
+			display: block;
+			float: left;
+		}
+
+		#menu_icon img {
+			width: 40pt;
+			margin-top: 6pt;
+			margin-left: 2pt;
 		}
 
 		#right {
@@ -151,56 +150,273 @@ display: none;
 			text-align: center;
 		}
 
-		#logo {
-			margin-top: 0pt;
-			width: left;
-			width: 50%;
-			float: left;
+		#Principal {
+			width: 100%;
+			height: 100%;
 		}
 
 		#Secundario {
-			float: left;
-			width: 100%;
-		}
-
-		section {
-			width: 100%;
-		}
-
-		#imgP {
-			margin-top: -40pt;
-			width: 100%;
-		}
-
-		aside {
-			margin-top: -30pt;
+			width: 90%;
+			height: 50%;
+			padding: 10pt;
+			text-align: center;
 		}
 
 		#Secundario h1 {
-			font-size: 17pt;
+			font-size: 16pt;
 		}
 
-		#Secundario h2 {
-			font-size: 14pt;
+		#Secundario h2 span a {
+			font-size: 10pt;
 		}
 
-		#Secundario h3 {
-			font-size: 11pt;
-		}
+}*
 
-		footer p {
-			font-size: 8pt;
-		}
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
 
-		footer {
-			position: absolute;
-			bottom: 0;
-		}
-
+	img#logo {
+		margin-top: 15pt;
+		width: 70%;
 	}
-}
+
+	#left {
+		height: 50pt;
+	}
+
+	#right {
+		width: 100%;
+		height: 50pt;
+	}
+
+	#right nav ul li a p {
+		font-size: 13pt;
+		margin-right: 6pt;
+		text-align: center;
+		line-height: 20pt;
+	}
+
+	#right nav ul li a span p{
+		position: absolute;
+		right: 50pt;
+		top: 0pt;
+	}
+
+	#Principal {
+		width: 100%;
+		height: 100%;
+	}
+
+	#Secundario {
+		margin-top: 120pt;
+		width: 50%;
+		height: 60%;
+	}
+
+	#Secundario h1 {
+		font-size: 20pt;
+	}
+
+	#Secundario h2 {
+		margin-top: 30pt;
+	}
 
 
-@media screen and (max-width: 1024px) {
-	/* Tablet */
+	#Secundario h2 span a {
+		font-size: 16pt;
+	}
+
+} 
+
+/* Small devices (portrait tablets and large phones, 600px and up) --- verificar */
+@media only screen and (max-width: 600px) {
+
+	#menu {
+		width: 100%;
+		height: 35pt;
+	}
+
+	img#logo {
+		margin-top: 5pt;
+		float: right;
+		width: 40%;
+	}
+
+	#left {
+		height: 30pt;
+		width: 190pt;
+		margin-top: -7;
+	}
+
+	#menu_icon {
+		display: block;
+		float: left;
+	}
+
+	#menu_icon img {
+		width: 40pt;
+		margin-top: 6pt;
+		margin-left: 2pt;
+	}
+
+	#right {
+		display: none;
+	}
+
+	#menu_oculto {
+		display: block;
+		width: 100%;
+		height: 100%;
+		text-align: center;
+	}
+
+	#Principal {
+		width: 100%;
+		height: 100%;
+	}
+
+	#Secundario {
+		width: 90%;
+		height: 50%;
+		padding: 10pt;
+		text-align: center;
+	}
+
+	#Secundario h1 {
+		font-size: 16pt;
+	}
+
+	#Secundario h2 span a {
+		font-size: 10pt;
+	}
+
+} 
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (max-width: 768px) {
+
+	img#logo {
+		margin-top: 15pt;
+		width: 70%;
+	}
+
+	#left {
+		height: 50pt;
+	}
+
+	#right {
+		width: 100%;
+		height: 70pt;
+		margin-top: 20pt;
+	}
+
+	#right nav ul li a p {
+		font-size: 20pt;
+		margin-right: 6pt;
+		text-align: center;
+		line-height: 30pt;
+	}
+
+	#right nav ul li a span p{
+		font-size: 15pt;
+		position: absolute;
+		right: 50pt;
+		top: 0pt;
+	}
+
+	#right nav ul li a span p{
+		padding: 10pt 20pt;
+	}
+
+	#Principal {
+		width: 100%;
+		height: 100%;
+	}
+
+	#Secundario {
+		margin-top: 180pt;
+		width: 50%;
+		height: 40%;
+	}
+
+	#Secundario h1 {
+		font-size: 25pt;
+	}
+
+	#Secundario h2 {
+		margin-top: 50pt;
+	}
+
+
+	#Secundario h2 span a {
+		font-size: 20pt;
+	}
+
+} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (max-width: 992px) {
+
+	img#logo {
+		margin-top: 15pt;
+		width: 70%;
+	}
+
+	#left {
+		height: 50pt;
+	}
+
+	#right {
+		width: 100%;
+		height: 80pt;
+		margin-top: 20pt;
+	}
+
+	#right nav ul li a p {
+		font-size: 28pt;
+		margin-right: 6pt;
+		text-align: center;
+		line-height: 30pt;
+	}
+
+	#right nav ul li a span p{
+		font-size: 25pt;
+		position: absolute;
+		right: 50pt;
+		top: -7pt;
+	}
+
+	#right nav ul li a span p{
+		padding: 10pt 20pt;
+	}
+
+	#Principal {
+		width: 100%;
+		height: 100%;
+	}
+
+	#Secundario {
+		margin-top: 180pt;
+		width: 50%;
+		height: 50%;
+	}
+
+	#Secundario h1 {
+		font-size: 35pt;
+	}
+
+	#Secundario h2 {
+		margin-top: 60pt;
+	}
+
+
+	#Secundario h2 span a {
+		font-size: 30pt;
+	}
+
+} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (max-width: 1200px) {
+
 }
