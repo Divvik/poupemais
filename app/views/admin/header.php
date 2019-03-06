@@ -9,19 +9,14 @@
 	<meta name="keywords" content="<?= $this->getKeywords()?>">
 	<meta name="description" content="<?= $this->getDescription()?>"> 
 	<title><?= $this->getTitle()?></title>
+
 	<link rel="stylesheet" href="<?= DIRCSS . 'style.css'; ?>">
 	<script src= "<?= DIRJS . 'jquery.js'; ?>"></script>
 	<script src= "<?= DIRJS . 'custom.js'; ?>"></script>
 </head>
 <body>
-	<header class="header-dashboard">
+	<header>
 		<div class="container grid">
-			<h1>dashboard</h1>
-			<nav>
-				<ul>
-					<li><?=$_SESSION['login'];?></li>
-					<li><a href="<?= DIRPAGE . '/login/logout'?>">logout</a></li>
-				</ul>
-			</nav>
+			<a href="<?= DIRPAGE . '/home/index/'?>"><h1 class="logo">Logo</h1></a>
 		</div>
 	</header>

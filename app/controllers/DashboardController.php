@@ -15,17 +15,20 @@ class DashboardController extends Controllers
     {   
         parent::__construct();
         Session::init();
+        $this->view->setTitle('Poupemais');
+        $this->view->setDescription('Conheça mais sobre a poupemais e não perca mais tempo no seu investimento.');
+        $this->view->setKeywords('poupemais, investimento, financias, aplicação');
     }
     
     public function index()
     {   
-        if(!isset($_SESSION['id']) && empty($_SESSION['id'])) {
+        if(!isset($_SESSION['idUsuario']) && empty($_SESSION['idUsuario'])) {
             Session::destroy();
             header('location:' . DIRPAGE . '/login');
             exit();
         } else {
             $dados = new LoginDB();
-            $usuario = $dados->lista();
+            $usuario = $dados->lista(Session::get('idUsuario'));
             $this->view->render('dashboard/index',['usuario' => $usuario]);
         }
     }

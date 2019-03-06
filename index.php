@@ -1,5 +1,5 @@
 <?php
-	header("Content-Type: text/html; charset=utf-8");
+	header("Content-Type: text/html; charset=iso-8859-1");
 	# Declarando os requires dos arquivos necessarios para inicializacao
 	require_once 'src/vendor/autoload.php';
 	require_once 'config/config.php';

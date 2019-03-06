@@ -15,9 +15,9 @@ class LoginDB extends Models
         parent::__construct();
     }
 
-    public function select($login, $pass)
+    public function select($login,$pass)
     {           
-        $sql = "SELECT * FROM usuario WHERE login = :login AND senha = MD5(:senha)";
+        $sql = "SELECT * FROM tb_usuario WHERE login = :login AND senha = MD5(:senha)";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':login', $login);
         $stmt->bindParam(':senha', $pass);
@@ -26,28 +26,50 @@ class LoginDB extends Models
         $count = $stmt->rowCount();
         
         if($count > 0) {
-            $data = $stmt->fetch(PDO::FETCH_ASSOC);
-            Session::init();
-            Session::set('id', $data['id']);
-            Session::set('login', $data['login']);
+            return $data = $stmt->fetch(PDO::FETCH_ASSOC);
         } else {
             //Show error!
             header('location: ../login');
         }
     }
 
-    public function lista()
+    public function lista($id)
     {   
-
-        $sql = "SELECT * FROM usuario";
+        $sql = "SELECT c.nomeCliente, c.cpf, i.vencimento, i.situacao, pla.nomePlano, pla.valorPlano 
+            FROM tb_cliente AS c 
+            JOIN tb_usuario_invest AS i ON c.idCliente = i.idCliente 
+            JOIN tb_planos AS pla ON pla.idPlano = i.idPlano 
+            WHERE c.idCliente = :id  ORDER BY i.vencimento ASC; 
+        ";
         $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(":id", $id);
         $stmt->execute();
 
         $count = $stmt->rowCount();
         
         if($count > 0) {
-            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $data;
+        }
+    }
+
+    public function listaAdmin($login, $senha)
+    {
+        $sql = "SELECT * FROM tb_usuario WHERE login = :login AND senha = MD5(:senha)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(":login", $login);
+        $stmt->bindParam(":senha", $senha);
+        $stmt->execute();
+
+        $count = $stmt->rowCount();
+
+        if($count > 0) {
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($data['email'] === 'admin@admin.com') {
+                return $data;
+            } else {
+                throw new Exception("Usuário não cadastraado!");
+            }
         }
     }
 }

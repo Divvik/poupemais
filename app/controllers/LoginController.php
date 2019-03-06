@@ -30,9 +30,14 @@ class LoginController extends Controllers
             $login = filter_input_post('c_login');
             $pass = filter_input_post('c_password');
 
-            $user = new LoginDB(); 
-            $user->select($login, $pass);
+            $data = new LoginDB(); 
+            $user = $data->select($login, $pass);
+           
+            Session::init();
+            Session::set('idUsuario', $user['idUsuario']);
+            Session::set('login', $user['login']);
             header('location: ../dashboard');
+            exit();
         } else {
             echo 'O arquivo não existe'; 
             exit();
@@ -42,7 +47,7 @@ class LoginController extends Controllers
     public function logout()
     {   
         Session::init();
-        if(isset($_SESSION['id'])) {
+        if(isset($_SESSION['idUsuario'])) {
             Session::destroy();
             header('location: ../login');
             exit();
