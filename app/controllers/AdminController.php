@@ -42,14 +42,4 @@ class AdminController extends Controllers
             exit();
         }
     }
-
-    public function dashboard()
-    {
-        $this->view->render('admin/dashboard');
-    }
-
-    public function cadastrar()
-    {   
-        $this->view->render('admin/index');
-    }
 }

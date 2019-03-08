@@ -1,38 +1,43 @@
 /* Geral */
 * {margin:0;padding:0;text-decoration: none; list-style: none;}
-body {font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; font-size: 120%; height: 100%; width: 100%;}
+body {font-family: 'Ubuntu', sans-serif; font-size: 120%; height: 100%; width: 100%;}
 
 .container {max-width: 960px; width: 100%; margin: 0 auto;}
 
 /* Header */
 .grid {display: grid; grid-template-columns: 1fr 1fr; align-items: center;}
-header {padding: .5em 0;width: 100%; box-shadow: 0px 3px 3px #c1c1c1;}
+header {padding: 1em 0;width: 100%; box-shadow: 0px 3px 3px #c1c1c1;}
 
 /* Logo */
-.logo{background-image: url('../img/Logo-Poupe.png'); background-repeat: no-repeat; background-position: center center; background-size: 100% 100%; width: 150px; height: 100%; text-indent: -999999px;}
+.logo{background-image: url('../img/Logo-Poupe.png'); background-repeat: no-repeat; background-position: center center; background-size: 100% 100%; width: 150px; height: 50px; text-indent: -999999px;}
 
 /* Menu */
 #menu ul {float: right;}
-#menu ul li {display: inline; margin-left: 1.25em;}
+#menu ul li {display: inline; margin-left: 1.20em;}
 #menu ul li a{font-size: 0.8em; line-height: 1.2em; color: #000;}
 
 /* Botões */
-.btn{border: none; width: 150px; height: 40px; font-size: 0.9em;}
-#menu .btn-login{background-color: #009EBC;padding: .5em 2.5em; border-radius: 12px; color: #fff;}
+.btn{border: none; width: 150px; height: 40px; font-size: 0.9em; cursor: pointer;}
+#menu .btn-login{background-color: #009EBC;padding: .75em 2.5em; border-radius: 12px; color: #fff;}
 .btn-login-enviar{border: 1px solid #fff; color: #fff; border-radius: 20px; background-color: transparent;margin-left: 58%; cursor: pointer;}
 .btn-login-enviar:hover{background-color: #009EBC; border: none;}
 .btn-login-enviar:focus{background-color: #009EBC; border: none;}
-
+.btn-cadastar{background-color: #004E9B; color: #fff; margin: 2em 0; float: right;}
+.btn-cancelar{background-color: tomato;}
+.btn-voltar-link{display: inline-block; width: 150px; margin: 1.65em 0; text-align: center; padding: .65em 0; color: #fff; cursor: pointer;}
 
 /* Style Formulario login */
-.fundo{background-image: linear-gradient(to right, #009EBC, #004E9B); height: 100%; padding: 3em 0;}
+.fundo, .background-login{background-image: linear-gradient(to right, #009EBC, #004E9B); height: 100%; padding-top: 3em;}
+.background-login
 .titulo-login{width: 300px; margin: 0 auto 0 auto; font-size: 1.8em; font-weight: 300; color: #fff;}
 .form-login{width: 300px; margin: 2em auto 0 auto; padding: 0 .5em;}
 .label-login{width: 100%; font-size: 0.9em; line-height: 1.35em; margin: .5em 0; color: #fff;}
 input{width: 100%; margin-top: .5em; padding: .5em; font-size: 0.9em; border: 1px solid #c1c1c1; border-radius: 5px;}
 input[type="text"]{margin-bottom: 1.5em;}
-.nova-senha{font-size: .7em; line-height: 1.05em; color: #fff;}
-.nova-senha:hover{text-decoration: underline;}
+.nova-senha, .login-cadastre{font-size: .7em; line-height: 1.05em; color: #fff; margin: 1em 0 3em 0;}
+.nova-senha:hover, .login-cadastre:hover{text-decoration: underline;}
+.nova-senha{float: left;}
+.login-cadastre{float: right; }
 
 /* Dashboard */
 .header-dashboard{background: #0c0909; color: #fff;}
@@ -45,5 +50,23 @@ input[type="text"]{margin-bottom: 1.5em;}
 #table-dashboard tr:nth-child(even){background-color: #f2f2f2;}
 #table-dashboard tr:hover {background-color: #ddd;}
 
+/* Style formulario cadastro */
+#form-cadastro-cliente{width: 70%; margin: 5em auto 0 auto; font-size: .8em; line-height: 1.2em;}
+#form-cadastro-cliente legend{width: 100%; font-size: 1.2em; line-height: 1.8em; color: #fff; font-weight: 500; background-color: #009EBC; padding: .5em 0; margin-bottom: 3em; display: block; text-align: center;}
+
+#form-cadastro-cliente label{margin: 1em 0; display: block;}
+#form-cadastro-cliente label[for="cidade"]{clear: both;}
+#form-cadastro-cliente label[for="bairro"]{ margin-right: 4em;}
+#form-cadastro-cliente label[for="bairro"],
+#form-cadastro-cliente label[for="cep"] {width: 45%; float: left;}
+#form-cadastro-cliente #bairro,
+#form-cadastro-cliente #cep{margin-top: 1em; margin-bottom: 1em;}
+
+#form-cadastro-cliente input{width: 98%; padding: 1em 0.5em; margin: 0; border-radius: 5px; outline: none; border: 1px solid #c1c1c1;}
+#form-cadastro-cliente #estado{width: 50%; display: block; padding: 1em 0.5em;}
+
+#form-cadastro-cliente input:hover, #form-cadastro-cliente select:hover{border: 1px solid #009EBC;}
+#form-cadastro-cliente input:focus{background-color: #cecece;}
+
 /* Footer */
-footer{width: 100%; padding: 3em 0;text-align: center; font-size: .7em; line-height: 1.05em;}
+footer{width: 100%; text-align: center; font-size: .7em; line-height: 1.05em; clear: both; margin-top: 7%; margin-bottom: 2%; color: #000;}

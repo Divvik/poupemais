@@ -27,7 +27,7 @@ define('HOST_NAME', 'localhost');
 define('DB_NAME', 'db_poupemais');
 define('DB_USER', 'root');
 define('DB_PASSWORD', '');
-define('CHAR_SET', 'utf8');
+define('CHAR_SET', 'charset=utf8');
 
 // Carregamento das Functions
 function autoloadFunction($name) {

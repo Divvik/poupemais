@@ -1,10 +1,11 @@
 <?php
-	header("Content-Type: text/html; charset=iso-8859-1");
+	header("Content-Type: text/html; charset=utf8");
 	# Declarando os requires dos arquivos necessarios para inicializacao
-	require_once 'src/vendor/autoload.php';
 	require_once 'config/config.php';
-	autoloadFunction('filter_input');
+	require_once DIRREQ . '/helpers/variaveis.php';
+	require_once 'src/vendor/autoload.php';
 	
+	autoloadFunction('filter_input');
 
 	if(!defined('DIRREQ')) exit;
 

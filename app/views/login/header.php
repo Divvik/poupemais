@@ -14,9 +14,4 @@
 	<script src= "<?= DIRJS . 'jquery.js'; ?>"></script>
 	<script src= "<?= DIRJS . 'custom.js'; ?>"></script>
 </head>
-<body>
-	<header>
-		<div class="container grid">
-			<a href="<?= DIRPAGE . '/home/index/'?>"><h1 class="logo">Logo</h1></a>
-		</div>
-	</header>
+<body class="background-login">

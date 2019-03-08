@@ -10,7 +10,7 @@ abstract class Models
     public function __construct()
     {
         try {
-            $this->db = new PDO("mysql:host=" . HOST_NAME . ";dbname=" . DB_NAME, DB_USER,DB_PASSWORD);
+            $this->db = new PDO("mysql:host=" . HOST_NAME . ";dbname=" . DB_NAME ."; charset=utf8",DB_USER,DB_PASSWORD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
         } catch (\PDOException $e) {
             echo 'Error: ' . $e->getMessage();
         }
