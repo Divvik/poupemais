@@ -40,7 +40,7 @@ class Routes
     protected function parseUrl()
     {   
         $url = explode('/', rtrim($_GET['url'],'/'));
-
+        
         if(isset($url[0]) && $url[0] != '') {
             $this->controller = ucfirst($url[0]) . 'Controller';
         } 
