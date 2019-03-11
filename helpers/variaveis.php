@@ -1,5 +1,7 @@
 <?php
 
+namespace Helpers;
+
 (isset($_POST['c_nome']) && !empty($_POST['c_nome']) ? $nome = filter_input_post('c_nome') : $nome = null);
 
 (isset($_POST['c_cpf']) && !empty($_POST['c_cpf']) ? $cpf = filter_input_post('c_cpf') : $cpf = null);

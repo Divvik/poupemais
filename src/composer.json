@@ -5,7 +5,8 @@
     "autoload": {
         "psr-4": {
             "App\\":"../app/",
-            "Src\\":"../src/"
+            "Src\\":"../src/",
+            "Helpers\\":"../helpers/"
         }
     }
 

@@ -19,6 +19,6 @@ class SobreController extends Controllers
     public function index()
     {   
         $this->view->setTitle('Sobre - Poupemais');
-        $this->view->render('sobre');
+        $this->view->render('sobre/index');
     }
 }

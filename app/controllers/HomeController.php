@@ -18,6 +18,6 @@ class HomeController extends Controllers
     }
     public function index()
     {   
-        $this->view->render('index');
+        $this->view->render('home/index');
     }
 }
