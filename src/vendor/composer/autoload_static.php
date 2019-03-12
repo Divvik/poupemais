@@ -11,6 +11,10 @@ class ComposerStaticInitd36f27306414bc0a69c90e62261b1932
         array (
             'Src\\' => 4,
         ),
+        'H' => 
+        array (
+            'Helpers\\' => 8,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -21,6 +25,10 @@ class ComposerStaticInitd36f27306414bc0a69c90e62261b1932
         'Src\\' => 
         array (
             0 => __DIR__ . '/../..' . '/',
+        ),
+        'Helpers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/../helpers',
         ),
         'App\\' => 
         array (

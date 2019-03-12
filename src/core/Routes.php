@@ -18,11 +18,11 @@ class Routes
         $this->parseUrl();
 
         if(file_exists(CONTROLLERS . $this->controller .'.php')) {
-             $controller = "App\\Controllers\\" . $this->controller;
-             $this->controller = new $controller;
+            $controller = "App\\Controllers\\" . $this->controller;
+            $this->controller = new $controller;
 
-          
-             if(method_exists($this->controller, $this->action)) {
+        
+            if(method_exists($this->controller, $this->action)) {
                 call_user_func_array([$this->controller, $this->action],$this->param);
             } else {
                 $error = "App\\Controllers\\ErrorController";
@@ -40,7 +40,7 @@ class Routes
     protected function parseUrl()
     {   
         $url = explode('/', rtrim($_GET['url'],'/'));
-
+        
         if(isset($url[0]) && $url[0] != '') {
             $this->controller = ucfirst($url[0]) . 'Controller';
         } 

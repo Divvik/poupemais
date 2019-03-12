@@ -7,7 +7,7 @@ namespace App\Controllers;
 use Src\Core\Controllers;
 
 # Declarando a classe HomeController
-class HomeController extends Controllers
+class ContatoController extends Controllers
 {   
     public function __construct()
     {
@@ -18,7 +18,7 @@ class HomeController extends Controllers
     }
     public function index()
     {   
-        $this->view->render('home/index');
-        
+        $this->view->setTitle('Contato - Poupemais');
+        $this->view->render('contato/index');
     }
 }
