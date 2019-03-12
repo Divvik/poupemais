@@ -6,5 +6,8 @@
             desenvolvido por Dog developer - fernando@fernando.com.br
         </div>
     </footer>
+    <script src= "<?= DIRJS . 'jquery.js'; ?>"></script>
+    <script src= "<?= DIRJS . 'masker.js'; ?>"></script>
+    <script src= "<?= DIRJS . 'custom.js'; ?>"></script>    
     </body>
 </html>

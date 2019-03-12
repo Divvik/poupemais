@@ -6,11 +6,7 @@
 
 	require_once DIRREQ . '/src/vendor/autoload.php';
 
-	require_once DIRREQ . '/helpers/variaveis.php';
-	
-	
-
-	// if(!defined('DIRREQ')) exit;
+	if(!defined('DIRREQ')) exit;
 
 	# Declarando o use da classes
 	use Src\Core\Routes;
