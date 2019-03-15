@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'ZxcvbnPhp\\' => array($vendorDir . '/bjeavons/zxcvbn-php/src'),
     'Src\\' => array($baseDir . '/'),
     'Helpers\\' => array($baseDir . '/../helpers'),
     'App\\' => array($baseDir . '/../app'),
