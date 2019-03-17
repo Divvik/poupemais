@@ -29,6 +29,11 @@ define('DB_USER', 'root');
 define('DB_PASSWORD', '');
 define('CHAR_SET', 'charset=utf8');
 
+// Recptcha
+# Outras informações
+define("SITEKEY","6LcTy5cUAAAAACxOvmDYhhqbi9xdBxnN1yC3m9EH");
+define("SECRETKEY","6LcTy5cUAAAAAFKPhsj9v7cMiiyFwrqVUay7ABlj");
+
 // Carregamento das Functions
 function autoloadFunction($name) {
     if(file_exists(DIRREQ . '/helpers/' . $name .'.php')) {

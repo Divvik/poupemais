@@ -204,6 +204,10 @@ INSERT INTO tb_cliente (nomeCliente,cpf,endereco,bairro,cep,cidade,estado,telefo
 					('Elton','111.111.111-11','Rua vida nova, 34' ,'Vida velha','12345-000','São Paulo','SP','11-99999-9999',1),
 					('João da Silva','111.222.333-12','Rua da vida, 30','Vida nova','12345-000','São Paulo','SP','11-9999-9999',2),
 				   ('Paulo Afonso','444.555.666-45','Rua proxima, 30','Vida nasce','12345-000', 'Rio de janeiro','RJ','1198888-8888',3);
+                 
+DELETE FROM confirmation WHERE id = 3;
+SELECT * FROM tb_usuario WHERE email = 'paulo@paulo.com.br';
+
 /* Seleção tabela */
 SELECT * FROM tb_cliente;
 SELECT * FROM tb_usuario;
@@ -215,6 +219,8 @@ SELECT * FROM tb_usuario WHERE email = 'carlosmaduraira@gmail.com';
 
 
 INSERT INTO tb_usuario (email,senha,login) VALUES('paulo@paulo.com.br',md5('709244'),'paulo');
+
+INSERT INTO tb_usuario VALUES ("teste@teste","709244","teste");
 
 INSERT INTO tb_cliente (nomeCliente,cpf,rg,estado_civil,endereco,bairro,cep,cidade,estado,telefone,date_cadastro,status,idUsuario) 
             VALUES('Paulo Afonso','323.322.808-20','40.633.778-0','solteiro','Rua paraiba, nº 132 Apto 22-D','Vila Nova','01235-610','São Paulo','SP','(11)9.9999-9999','2019-03-12 22:37:20','confirmation','1');

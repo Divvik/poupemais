@@ -63,7 +63,7 @@ input[type="text"]{margin-bottom: 1.5em;}
 #form-cadastro-cliente #cep{margin-top: 1em; margin-bottom: 1em;}
 
 #form-cadastro-cliente input{width: 98%; padding: 1em 0.5em; margin: 0; border-radius: 5px; outline: none; border: 1px solid #c1c1c1;}
-#form-cadastro-cliente #estado{width: 50%; display: block; padding: 1em 0.5em;}
+#form-cadastro-cliente #estado, #form-cadastro-cliente #estado_civil{width: 50%; display: block; padding: 1em 0.5em;}
 
 #form-cadastro-cliente input:hover, #form-cadastro-cliente select:hover{border: 1px solid #009EBC;}
 #form-cadastro-cliente input:focus{background-color: #cecece;}

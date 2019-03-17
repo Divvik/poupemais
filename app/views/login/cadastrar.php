@@ -14,7 +14,7 @@
 				<input type="text" name="c_rg" id="rg" placeholder="XX.XXX.XXX-X" required>
 
 				<label for="estado"> Estado Civil </label>
-					<select name="c_estado_civil" id="estado" required>
+					<select name="c_estado_civil" id="estado_civil" required>
 						<option value=""></option>
 						<option value="Solteiro">Solteiro</option>
 						<option value="Viúvo">Viúvo</option>
