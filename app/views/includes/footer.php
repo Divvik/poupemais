@@ -7,6 +7,7 @@
         </div>
     </footer>
     <script src= "<?= DIRJS . 'jquery.js'; ?>"></script>
+    <script src="<?= DIRJS . 'ajax.js';?>"></script>
     <script src= "<?= DIRJS . 'masker.js'; ?>"></script>
     <script src="https://www.google.com/recaptcha/api.js?render=<?php echo SITEKEY ?>"></script>
     <script src= "<?= DIRJS . 'custom.js'; ?>"></script>    

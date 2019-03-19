@@ -33,6 +33,7 @@ class ValidarController
     private $dataCreate;
     private $token;
     private $status = 'confirmation';
+    private $gRecaptchaResponse;
 
     public function __construct()
     {   
@@ -47,8 +48,7 @@ class ValidarController
         $this->validaIssetEmail($this->email);
         $this->validaCpf('c_cpf');
         $this->validateStrongSenha($this->senha);
-
-        var_dump($this->getErro());
+        $this->validateCaptcha($this->gRecaptchaResponse);
 
         # Array com as informações do cadastro
         $arraVar = [
@@ -70,10 +70,12 @@ class ValidarController
             "token"=>$this->token,
         ];
 
+        # Validação final do formulario junto com json
+        echo $this->validateFinalCad($arraVar); 
         # Dados enviado para o banco de dados
-        $this->cadastro->insertUser($arraVar);
-        $this->cadastro->insertCliente($arraVar,$this->cadastro->selectUltId());
-        $this->cadastro->insertConfirmation($arraVar);
+        // $this->cadastro->insertUser($arraVar);
+        // $this->cadastro->insertCliente($arraVar,$this->cadastro->selectUltId());
+        // $this->cadastro->insertConfirmation($arraVar);
         
     }
     
@@ -124,7 +126,7 @@ class ValidarController
         (isset($_POST['c_telefone']) && !empty($_POST['c_telefone']) ? $this->telefone = filter_input_post('c_telefone') : $this->telefone = null);
         (isset($_POST['c_email']) && !empty($_POST['c_email']) ? $this->email = filter_input(INPUT_POST, 'e_email', FILTER_VALIDATE_EMAIL) : $this->email = null);
         (isset($_POST['c_login']) && !empty($_POST['c_login']) ? $this->login = filter_input_post('c_login') : $this->login = null);
-
+        (isset($_POST['c_g-recaptcha-response']) && !empty($_POST['c_g-recaptcha-response'])) ? $this->gRecaptchaResponse = $_POST['c_g-recaptcha-response'] : $this->gRecaptchaResponse = NULL;
         # Criando uma senha hash 
         $objPass = new PasswordController();
         if(isset($_POST['c_senha']) && !empty($_POST['c_senha'])) { 
@@ -173,7 +175,7 @@ class ValidarController
         $b = $this->cadastro->getEmail($email);
 
         if($b > 0) {
-            $this->setErro("Email já cadastrado!");
+            $this->setErro("Email ja cadastrado!");
             return false;
         } else {
             return true;
@@ -191,12 +193,12 @@ class ValidarController
             
             // Verifica se foi informado todos os digitos corretamente
             if (strlen($cpf) != 11) {
-                $this->setErro("Digite 11 números do CPF!");
+                $this->setErro("Digite 11 numeros do CPF!");
                 return false;
             }
             // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
             if (preg_match('/(\d)\1{10}/', $cpf)) {
-                $this->setErro("CPF não aceita números sequencias!");
+                $this->setErro("CPF nao aceita numeros sequencias!");
                 return false;
             }
             // Faz o calculo para validar o CPF
@@ -206,7 +208,7 @@ class ValidarController
                 }
                 $d = ((10 * $d) % 11) % 10;
                 if ($cpf{$c} != $d) {
-                    $this->setErro("CPF Inválido!");
+                    $this->setErro("CPF Invalido!");
                     return false;
                 }
             }
@@ -222,7 +224,7 @@ class ValidarController
         if($senha === $confSenha){
             return true;
         } else {
-            $this->setErro("A Confirmação de senha está diferente da senha");
+            $this->setErro("A Confirmacao de senha esta diferente da senha");
             return false;
         }
     }
@@ -239,9 +241,32 @@ class ValidarController
         } else {
             $this->setErro("Digite uma senha mais forte!");
         }
-        echo $strength['score'];
         # Score retorna um valor de 0 a 4, sendo 0 fraca e 4 muito forte
     }
 
-    # Verificação da senha digitada com o hash no banco de dados
+    # Verifica se o captcha esta correto
+    public function validateCaptcha($captcha, $score=0.5)
+    {   
+        $retorno = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=".SECRETKEY."&response={$captcha}");
+        $response = json_decode($retorno);
+        if($response->success == true && $response->score >= $score) {
+            return true;
+        } else {
+            $this->setErro("Captcha Invalido! Atualize a pagina e tente novamente.");
+            return false;
+        }
+    }
+
+    public function validateFinalCad($arraVar)
+    {
+        if(count($this->getErro()) > 0 ) {
+            $arrResponse = [
+                "retorno" => "erro",
+                "erros" => $this->getErro()
+            ];
+        } else {
+            echo "teste";
+        }
+        return json_encode($arrResponse);
+    }
 }
