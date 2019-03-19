@@ -58,6 +58,8 @@
 				
 				<label for="conf-senha">Confirme a senha</label>
 				<input type="password" name="c_conf-senha" id="conf-senha" placeholder="conf-password" required>
+
+				<input type="hidden" name="c_g-recaptcha-response" id="g-recaptcha-response">
 				
 				<button class="btn btn-cadastar" type="submit">Cadastar</button>
 				<a class="btn-cancelar btn-voltar-link" href="<?= DIRPAGE . '/login/index'?>">Voltar</a>
