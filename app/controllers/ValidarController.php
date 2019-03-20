@@ -35,6 +35,12 @@ class ValidarController
     private $status = 'confirmation';
     private $gRecaptchaResponse;
 
+    # Erros
+    private $erroEmail = NULL;
+    private $erroCPF = NULL;
+    private $erroStrongSenha = NULL;
+    private $erroConfSenha = NULL;
+
     public function __construct()
     {   
         # Instancia da Class CadastrarDB
@@ -43,11 +49,11 @@ class ValidarController
         # Validações 
         $this->validarCadastro($_POST);
         $this->validarFields();
-        $this->validaConfSenha($this->senha, $this->confSenha);
+        $this->validaCpf('c_cpf');
         $this->validaEmail('c_email');
         $this->validaIssetEmail($this->email);
-        $this->validaCpf('c_cpf');
         $this->validateStrongSenha($this->senha);
+        $this->validaConfSenha($this->senha, $this->confSenha);
         $this->validateCaptcha($this->gRecaptchaResponse);
 
         # Array com as informações do cadastro
@@ -71,7 +77,8 @@ class ValidarController
         ];
 
         # Validação final do formulario junto com json
-        echo $this->validateFinalCad($arraVar); 
+        echo $this->validateFinalCad(); 
+
         # Dados enviado para o banco de dados
         // $this->cadastro->insertUser($arraVar);
         // $this->cadastro->insertCliente($arraVar,$this->cadastro->selectUltId());
@@ -161,7 +168,7 @@ class ValidarController
             
             if(!$email) {
                 $this->email = NULL;
-                $this->setErro("Email inválido!");
+                $this->erroEmail = "Email inválido!";
                 return false;
             } else {
                 return $this->email = $email;
@@ -175,7 +182,7 @@ class ValidarController
         $b = $this->cadastro->getEmail($email);
 
         if($b > 0) {
-            $this->setErro("Email ja cadastrado!");
+            $this->erroEmail = "Email ja cadastrado!";
             return false;
         } else {
             return true;
@@ -193,12 +200,12 @@ class ValidarController
             
             // Verifica se foi informado todos os digitos corretamente
             if (strlen($cpf) != 11) {
-                $this->setErro("Digite 11 numeros do CPF!");
+                $this->erroCPF = "Digite 11 numeros do CPF!";
                 return false;
             }
             // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
             if (preg_match('/(\d)\1{10}/', $cpf)) {
-                $this->setErro("CPF nao aceita numeros sequencias!");
+                $this->erroCPF = "CPF nao aceita numeros sequencias!";
                 return false;
             }
             // Faz o calculo para validar o CPF
@@ -208,7 +215,7 @@ class ValidarController
                 }
                 $d = ((10 * $d) % 11) % 10;
                 if ($cpf{$c} != $d) {
-                    $this->setErro("CPF Invalido!");
+                    $this->erroCPF = "CPF Invalido!";
                     return false;
                 }
             }
@@ -224,7 +231,7 @@ class ValidarController
         if($senha === $confSenha){
             return true;
         } else {
-            $this->setErro("A Confirmacao de senha esta diferente da senha");
+            $this->erroConfSenha = "A Confirmacao de senha esta diferente da senha";
             return false;
         }
     }
@@ -239,7 +246,7 @@ class ValidarController
         if($strength['score'] >= 3) {
             return true;
         } else {
-            $this->setErro("Digite uma senha mais forte!");
+            $this->erroStrongSenha = "Digite uma senha mais forte!";
         }
         # Score retorna um valor de 0 a 4, sendo 0 fraca e 4 muito forte
     }
@@ -252,21 +259,44 @@ class ValidarController
         if($response->success == true && $response->score >= $score) {
             return true;
         } else {
-            $this->setErro("Captcha Invalido! Atualize a pagina e tente novamente.");
+            $this->setErro = "Captcha Invalido! Atualize a pagina e tente novamente.";
             return false;
         }
     }
 
-    public function validateFinalCad($arraVar)
+    public function validateFinalCad()
     {
+        $arrResponse = array();
+        
         if(count($this->getErro()) > 0 ) {
-            $arrResponse = [
-                "retorno" => "erro",
-                "erros" => $this->getErro()
-            ];
-        } else {
-            echo "teste";
+            $arrResponse["retorno"] = "erro";
+            $arrResponse["erros"] = $this->getErro();
         }
+
+        if($this->erroCPF != NULL)
+        {
+            $arrResponse["retorno"] = "erro";
+            $arrResponse["cpf"] = $this->erroCPF;   
+        }
+
+        if ($this->erroEmail != NULL){
+            $arrResponse["retorno"] = "erro";
+            $arrResponse["email"] = $this->erroEmail;
+        } 
+
+        if($this->erroStrongSenha != NULL) {
+            $arrResponse["retorno"] = "erro";
+            $arrResponse["senhaStrong"] = $this->erroStrongSenha;
+        } 
+        if($this->erroConfSenha != NULL){
+            $arrResponse["retorno"] = "erro";
+            $arrResponse["senhaConf"] = $this->erroConfSenha;
+        }
+
+        if(count($arrResponse) == 0){
+            $arrResponse["retorno"] = "success";
+        }
+        
         return json_encode($arrResponse);
     }
 }

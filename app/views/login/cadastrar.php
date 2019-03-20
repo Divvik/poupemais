@@ -9,6 +9,7 @@
 				
 				<label for="cpf">CPF</label>
 				<input type="text" name="c_cpf" id="cpf" placeholder="XXX.XXX.XXX-XX" required>
+				<p class="error-cad cpf"></p>
 
 				<label for="rg">RG</label>
 				<input type="text" name="c_rg" id="rg" placeholder="XX.XXX.XXX-X" required>
@@ -49,21 +50,25 @@
 				
 				<label for="cad-cliente-email">Email</label>
 				<input type="email" name="c_email" id="cad-cliente-email" placeholder="email@email.com.br" required>
-				
+				<p class="error-cad email"></p>
+
 				<label for="cad-cliente-login">Login</label>
 				<input type="text" name="c_login" id="cad-cliente-login" placeholder="users" required>
 				
 				<label for="cad-cliente-senha">Senha</label>
 				<input type="password" name="c_senha" id="cad-cliente-senha" placeholder="password" required>
-				
+				<p class="error-cad senha-strong"></p>
+
 				<label for="conf-senha">Confirme a senha</label>
 				<input type="password" name="c_conf-senha" id="conf-senha" placeholder="conf-password" required>
+				<p class="erro-cad conf-senha"></p>
 
 				<input type="hidden" name="c_g-recaptcha-response" id="g-recaptcha-response">
 				
 				<button class="btn btn-cadastar" type="submit">Cadastar</button>
 				<a class="btn-cancelar btn-voltar-link" href="<?= DIRPAGE . '/login/index'?>">Voltar</a>
 			</form>
+			<p class="error-cad dados-em-brancos success"></p>
 	</div>
 <?php require_once  VIEWS . 'includes/footer.php' ?>
 

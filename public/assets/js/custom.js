@@ -8,41 +8,47 @@ VMasker(document.querySelector("#telefone")).maskPattern("(99) 9.9999-9999");
 
 
 // Recaptcha
-(function getCaptcha() {
+function getCaptcha() {
     grecaptcha.ready(function() {
         grecaptcha.execute('6LcTy5cUAAAAACxOvmDYhhqbi9xdBxnN1yC3m9EH', {action: 'homepage'}).then(function(token) {
             const gRecaptchaResponse = document.querySelector("#g-recaptcha-response").value = token;
         });
     });
-}());
-
-// requisição servidor
-
-//  Retorno do root
-
-function getRoot(){
-    var root = "http://" + document.location.hostname + "/poupemais/";
-    return root;
 }
+getCaptcha();
+// requisição servidor
 
 // Ajax do formulário de cadastro
 var form = document.querySelector("#form-cadastro-cliente");
 
 $("#form-cadastro-cliente").on("submit", function(event){
     event.preventDefault();
-    var dados=$(this).serialize();
-   
+    var dados = $(this).serialize();
+
     $.ajax({
         url:form.action,
         type: 'POST',
-        dataType: 'json',
         data: dados,
+        dataType: 'json',
         success: function(response){
-            console.log(response)
-        },
-        
-        error: function(xhr){
-            alert("An error occured: " + xhr.statusText);
+            $('.cpf').empty();
+            $('.email').empty();
+            $('.senha-strong').empty();
+            $('.conf-senha').empty();
+            $('.dados-em-brancos').empty();
+            $('.retornoCad').empty();
+
+            console.log(response);
+            if(response.retorno == 'erro') {
+                getCaptcha();
+                $('.cpf').append(response.cpf);
+                $('.email').append(response.email);
+                $('.senha-strong').append(response.senhaStrong);
+                $('.conf-senha').append(response.senhaConf);
+                $('.dados-em-brancos').append(response.erros);
+            } else {
+                $('.success').append('Cadastro efetuado com sucesso!');
+            }
         }
     });
 });
