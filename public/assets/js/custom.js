@@ -41,7 +41,7 @@ $("#form-cadastro-cliente").on("submit", function(event){
             console.log(response);
             if(response.retorno == 'erro') {
                 getCaptcha();
-                $('.cpf').append(response.cpf);
+                $('.cpf').append(response.cpf).addClass('alert-warning');
                 $('.email').append(response.email);
                 $('.senha-strong').append(response.senhaStrong);
                 $('.conf-senha').append(response.senhaConf);

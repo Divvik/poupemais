@@ -1,6 +1,6 @@
 /* Geral */
 * {margin:0;padding:0;text-decoration: none; list-style: none;}
-body {font-family: 'Ubuntu', sans-serif; font-size: 120%; height: 100%; width: 100%;}
+body {font-family: 'Ubuntu', sans-serif; font-size: 120%; height: 100%; width: 100%; box-sizing: border-box;}
 
 .container {max-width: 960px; width: 100%; margin: 0 auto;}
 
@@ -32,8 +32,8 @@ header {padding: 1em 0;width: 100%; box-shadow: 0px 3px 3px #c1c1c1;}
 .titulo-login{width: 300px; margin: 0 auto 0 auto; font-size: 1.8em; font-weight: 300; color: #fff;}
 .form-login{width: 300px; margin: 2em auto 0 auto; padding: 0 .5em;}
 .label-login{width: 100%; font-size: 0.9em; line-height: 1.35em; margin: .5em 0; color: #fff;}
-input{width: 100%; margin-top: .5em; padding: .5em; font-size: 0.9em; border: 1px solid #c1c1c1; border-radius: 5px;}
-input[type="text"]{margin-bottom: 1.5em;}
+.form-login input{width: 100%; margin-top: .5em; padding: .5em; font-size: 0.9em;}
+.form-login input[type="text"]{margin-bottom: 1.5em;}
 .nova-senha, .login-cadastre{font-size: .7em; line-height: 1.05em; color: #fff; margin: 1em 0 3em 0;}
 .nova-senha:hover, .login-cadastre:hover{text-decoration: underline;}
 .nova-senha{float: left;}
@@ -51,22 +51,29 @@ input[type="text"]{margin-bottom: 1.5em;}
 #table-dashboard tr:hover {background-color: #ddd;}
 
 /* Style formulario cadastro */
-#form-cadastro-cliente{width: 70%; margin: 5em auto 0 auto; font-size: .8em; line-height: 1.2em;}
+#form-cadastro-cliente{width: 60%; margin: 5em auto 0 auto; font-size: .8em; line-height: 1.2em;}
 #form-cadastro-cliente legend{width: 100%; font-size: 1.2em; line-height: 1.8em; color: #fff; font-weight: 500; background-color: #009EBC; padding: .5em 0; margin-bottom: 3em; display: block; text-align: center;}
 
-#form-cadastro-cliente label{margin: 1em 0; display: block;}
-#form-cadastro-cliente label[for="cidade"]{clear: both;}
-#form-cadastro-cliente label[for="bairro"]{ margin-right: 4em;}
-#form-cadastro-cliente label[for="bairro"],
-#form-cadastro-cliente label[for="cep"] {width: 45%; float: left;}
-#form-cadastro-cliente #bairro,
-#form-cadastro-cliente #cep{margin-top: 1em; margin-bottom: 1em;}
+label{color:#009EBC; font-size: .8rem;}
 
-#form-cadastro-cliente input{width: 98%; padding: 1em 0.5em; margin: 0; border-radius: 5px; outline: none; border: 1px solid #c1c1c1;}
-#form-cadastro-cliente #estado, #form-cadastro-cliente #estado_civil{width: 50%; display: block; padding: 1em 0.5em;}
+.container-input{position: relative; width: 100%; margin: 1.5em 0;}
+.container-input input{width: 100%; border: none; border-bottom: 1px solid #009EBC; outline: none; font-size: 1rem;}
+.container-input label{top: 0;left: 0;right: 0;color: #009EBC;display: flex;align-items: center;position: absolute; font-size: .8rem;cursor: text; transition: .2s ease-in-out;}
+.container-input input, .container-input label {width: 100%; height: 3em;}
 
-#form-cadastro-cliente input:hover, #form-cadastro-cliente select:hover{border: 1px solid #009EBC;}
-#form-cadastro-cliente input:focus{background-color: #cecece;}
+.input-floats{width: 45%; margin: 1em 0 2em 0;}
+.float-left{float: left;}
+.clear{clear: both;}
+.m-right{margin-right: 3.4em;}
 
+#estado, #estado_civil{margin: 1em 0; width: 20%; height: 2.5em; border: 1px solid #009EBC; background-color: #009EBC; color: #fff; padding: .5em 0}
+label[for="estado"]{margin-right: 1em;}
+select{font-weight: 600; font-size: .8em;}
+/* Interation */
+.container-input input:valid, .container-input input:focus {border-bottom: 1px solid #004E9B;}
+.container-input input:valid + label, .container-input input:focus + label {color: #004E9B;font-size: 1em; top: -30px; pointer-events: none;}
+
+/* Estilizando os alerta ajax */
+.alert-warning{width: 100%; font-size: 0.8em; font-weight: 200; margin: .25em 0; padding: .75em; background: #dd9f94; color: #fff; border-radius: 5px;}
 /* Footer */
 footer{width: 100%; text-align: center; font-size: .7em; line-height: 1.05em; clear: both; margin-top: 7%; margin-bottom: 2%; color: #000;}
