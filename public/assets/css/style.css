@@ -30,10 +30,10 @@ header {padding: 1em 0;width: 100%; box-shadow: 0px 3px 3px #c1c1c1;}
 .fundo, .background-login{background-image: linear-gradient(to right, #009EBC, #004E9B); height: 100%; padding-top: 3em;}
 .background-login
 .titulo-login{width: 300px; margin: 0 auto 0 auto; font-size: 1.8em; font-weight: 300; color: #fff;}
-.form-login{width: 300px; margin: 2em auto 0 auto; padding: 0 .5em;}
+#form-login{width: 300px; margin: 2em auto 0 auto; padding: 0 .5em;}
 .label-login{width: 100%; font-size: 0.9em; line-height: 1.35em; margin: .5em 0; color: #fff;}
-.form-login input{width: 100%; margin-top: .5em; padding: .5em; font-size: 0.9em;}
-.form-login input[type="text"]{margin-bottom: 1.5em;}
+#form-login input{width: 100%; margin-top: .5em; padding: .5em; font-size: 0.9em;}
+#form-login input[type="text"]{margin-bottom: 1.5em;}
 .nova-senha, .login-cadastre{font-size: .7em; line-height: 1.05em; color: #fff; margin: 1em 0 3em 0;}
 .nova-senha:hover, .login-cadastre:hover{text-decoration: underline;}
 .nova-senha{float: left;}
@@ -51,7 +51,7 @@ header {padding: 1em 0;width: 100%; box-shadow: 0px 3px 3px #c1c1c1;}
 #table-dashboard tr:hover {background-color: #ddd;}
 
 /* Style formulario cadastro */
-#form-cadastro-cliente{width: 60%; margin: 5em auto 0 auto; font-size: .8em; line-height: 1.2em;}
+#form-cadastro-cliente{width: 720px; margin: 5em auto 0 auto; font-size: .8em; line-height: 1.2em; padding: 1em;}
 #form-cadastro-cliente legend{width: 100%; font-size: 1.2em; line-height: 1.8em; color: #fff; font-weight: 500; background-color: #009EBC; padding: .5em 0; margin-bottom: 3em; display: block; text-align: center;}
 
 label{color:#009EBC; font-size: .8rem;}
@@ -74,6 +74,9 @@ select{font-weight: 600; font-size: .8em;}
 .container-input input:valid + label, .container-input input:focus + label {color: #004E9B;font-size: 1em; top: -30px; pointer-events: none;}
 
 /* Estilizando os alerta ajax */
-.alert-warning{width: 100%; font-size: 0.8em; font-weight: 200; margin: .25em 0; padding: .75em; background: #dd9f94; color: #fff; border-radius: 5px;}
+.dados-em-brancos{text-align: right;}
+.alert{font-size: 0.8em; font-weight: 600; margin: .25em 0;}
+.success{color: #388a18;}
+.warning{color: #c94d37;}
 /* Footer */
 footer{width: 100%; text-align: center; font-size: .7em; line-height: 1.05em; clear: both; margin-top: 7%; margin-bottom: 2%; color: #000;}

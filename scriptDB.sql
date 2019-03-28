@@ -243,7 +243,11 @@ SELECT * FROM tb_grupos;
 INSERT INTO tb_grupos (nomeGrupo) VALUES ('Brasil'),('EUA'),('Canada');
 
 /* Seleceção tabela */
-SELECT * FROM tb_planos;
+SELECT * FROM tb_grupos;
+
+DELETE FROM tb_grupos WHERE idGrupo = 9;
+
+DELETE FROM confirmation WHERE id = 3;
 
 INSERT INTO tb_usuario_invest (vencimento,idCliente,idPlano,situacao,idGrupo) VALUES 
 	('2019-06-23',1,1,'aberto',1),('2019-07-23',1,1,'aberto',1),
@@ -254,7 +258,7 @@ INSERT INTO tb_usuario_invest (vencimento,idCliente,idPlano,situacao,idGrupo) VA
     ('2019-10-23',2,2,'aberto',2),('2019-11-23',2,2,'aberto',2);
     
 /* Seleção tabela */
-SELECT * FROM tb_usuario_invest;
+SELECT count(*) FROM tb_usuario_invest;
 
 /* ALGO DE ERRADO NESSA TABELA */
 /*INSERT INTO tb_pagamentos (idInvest,idCliente,dataPag) VALUES (2,1,'2019-07-30');*/
@@ -280,3 +284,9 @@ SELECT c.nomeCliente, c.cpf, i.vencimento, i.situacao, pla.nomePlano, pla.valorP
     JOIN tb_planos AS pla ON pla.idPlano = i.idPlano 
     WHERE c.idCliente = 2 ORDER BY i.vencimento ASC; 
 
+
+SELECT c.nomeCliente, c.cpf, i.vencimento, i.situacao, pla.nomePlano, pla.valorPlano  
+            FROM tb_cliente AS c 
+            JOIN tb_usuario_invest AS i ON c.idCliente = i.idCliente 
+            JOIN tb_planos AS pla ON pla.idPlano = i.idPlano 
+            WHERE c.idCliente = 4  ORDER BY i.vencimento ASC;

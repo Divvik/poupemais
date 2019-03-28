@@ -13,7 +13,7 @@
 				<div class="container-input">
 					<input type="text" name="c_cpf" id="cpf" pattern=".+" required>
 					<label for="cpf">CPF</label>
-					<p class="error-cad cpf"></p>
+					<p class="cpf alert"></p>
 				</div>
 
 				<div class="container-input">
@@ -25,6 +25,7 @@
 					<select name="c_estado_civil" class="w50" id="estado_civil" pattern=".+" required>
 						<option value="">Selecione</option>
 						<option value="Solteiro">Solteiro</option>
+						<option value="Casado">Casado</option>
 						<option value="Viúvo">Viúvo</option>
 						<option value="Divorciado">Divorciado</option>
 						<option value="Amasiado ">Amasiado </option>
@@ -53,10 +54,10 @@
 				<label for="estado"> Estado </label>
 					<select name="c_estado" id="estado" required>
 						<option value="">Selecione</option>
-						<option value="sp">SP</option>
-						<option value="mg">MG</option>
-						<option value="rj">RJ</option>
-						<option value="sc">SC</option>
+						<option value="SP">SP</option>
+						<option value="MG">MG</option>
+						<option value="RJ">RJ</option>
+						<option value="SC">SC</option>
 					</select>
 				<div class="container-input clear" >
 					<input type="text" name="c_telefone" id="telefone" pattern=".+" required>
@@ -66,7 +67,7 @@
 				<div class="container-input">
 					<input type="email" name="c_email" id="cad-cliente-email" pattern=".+" required>
 					<label for="cad-cliente-email">Email</label>
-					<p class="error-cad email"></p>
+					<p class="email alert"></p>
 				</div>
 
 				<div class="container-input">
@@ -77,21 +78,23 @@
 				<div class="container-input">
 					<input type="password" name="c_senha" id="cad-cliente-senha" pattern=".+" required>
 					<label for="cad-cliente-senha">Senha</label>
-					<p class="error-cad senha-strong"></p>
+					<p class="senha-strong alert"></p>
 				</div>
 
 				<div class="container-input">
 					<input type="password" name="c_conf-senha" id="conf-senha" pattern=".+" required>
 					<label for="conf-senha">Confirme a senha</label>
-					<p class="error-cad conf-senha"></p>
+					<p class="conf-senha alert"></p>
 				</div>
-				
+
+				<p class="dados-em-brancos alert"></p>
+				<p class="alert alert-success"></p>
 				<input type="hidden" name="c_g-recaptcha-response" id="g-recaptcha-response">
-				
+
 				<button class="btn btn-cadastar" type="submit">Cadastar</button>
 				<a class="btn-cancelar btn-voltar-link" href="<?= DIRPAGE . '/login/index'?>">Voltar</a>
 			</form>
-			<p class="error-cad dados-em-brancos success"></p>
+			
 	</div>
 <?php require_once  VIEWS . 'includes/footer.php' ?>
 

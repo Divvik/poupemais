@@ -5,7 +5,7 @@ namespace App\Controllers;
 # Use
 use App\Models\CadastrarDB;
 use Src\Core\ClassCrud;
-use App\Controllers\PasswordController;
+use Src\Core\PasswordController;
 use PDO;
 use ZxcvbnPhp\Zxcvbn;
 
@@ -80,9 +80,9 @@ class ValidarController
         echo $this->validateFinalCad(); 
 
         # Dados enviado para o banco de dados
-        // $this->cadastro->insertUser($arraVar);
-        // $this->cadastro->insertCliente($arraVar,$this->cadastro->selectUltId());
-        // $this->cadastro->insertConfirmation($arraVar);
+        $this->cadastro->insertUser($arraVar);
+        $this->cadastro->insertCliente($arraVar,$this->cadastro->selectUltId());
+        $this->cadastro->insertConfirmation($arraVar);
         
     }
     
@@ -182,7 +182,7 @@ class ValidarController
         $b = $this->cadastro->getEmail($email);
 
         if($b > 0) {
-            $this->erroEmail = "Email ja cadastrado!";
+            $this->erroEmail = "Email já cadastrado!";
             return false;
         } else {
             return true;
@@ -200,12 +200,12 @@ class ValidarController
             
             // Verifica se foi informado todos os digitos corretamente
             if (strlen($cpf) != 11) {
-                $this->erroCPF = "Digite 11 numeros do CPF!";
+                $this->erroCPF = "Digite 11 números do CPF!";
                 return false;
             }
             // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
             if (preg_match('/(\d)\1{10}/', $cpf)) {
-                $this->erroCPF = "CPF nao aceita numeros sequencias!";
+                $this->erroCPF = "CPF não aceita números sequências!";
                 return false;
             }
             // Faz o calculo para validar o CPF
@@ -215,7 +215,7 @@ class ValidarController
                 }
                 $d = ((10 * $d) % 11) % 10;
                 if ($cpf{$c} != $d) {
-                    $this->erroCPF = "CPF Invalido!";
+                    $this->erroCPF = "CPF Inválido!";
                     return false;
                 }
             }
@@ -231,7 +231,7 @@ class ValidarController
         if($senha === $confSenha){
             return true;
         } else {
-            $this->erroConfSenha = "A Confirmacao de senha esta diferente da senha";
+            $this->erroConfSenha = "A Confirmação de senha está diferente da senha";
             return false;
         }
     }
@@ -259,7 +259,7 @@ class ValidarController
         if($response->success == true && $response->score >= $score) {
             return true;
         } else {
-            $this->setErro = "Captcha Invalido! Atualize a pagina e tente novamente.";
+            $this->setErro("Captcha Inválido! Atualize a página e tente novamente.");
             return false;
         }
     }

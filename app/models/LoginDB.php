@@ -5,51 +5,47 @@ namespace App\Models;
 
 # use
 use PDO;
-use Src\Core\Models;
+use Src\Core\ClassCrud;
 use Src\Core\Session;
 
-class LoginDB extends Models
+class LoginDB extends ClassCrud
 {
-    public function __construct()
+    # Retorna os dados do usuário
+    public function getUser($login)
     {
-        parent::__construct();
-    }
-
-    public function select($login,$pass)
-    {           
-        $sql = "SELECT * FROM tb_usuario WHERE login = :login AND senha = MD5(:senha)";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':login', $login);
-        $stmt->bindParam(':senha', $pass);
-        $stmt->execute();
-
-        $count = $stmt->rowCount();
+        $query = $this->selectDB("idUsuario,login,senha","tb_usuario", "WHERE login = ?", array($login));
         
-        if($count > 0) {
-            return $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        $rows = $query->rowCount();
+
+        if($rows > 0) {
+            return  $data = $query->fetch(PDO::FETCH_ASSOC);
         } else {
-            //Show error!
-            header('location: ../login');
+            return "Usuário não existe!";
         }
     }
 
     public function lista($id)
     {   
-        $sql = "SELECT c.nomeCliente, c.cpf, i.vencimento, i.situacao, pla.nomePlano, pla.valorPlano 
-            FROM tb_cliente AS c 
-            JOIN tb_usuario_invest AS i ON c.idCliente = i.idCliente 
-            JOIN tb_planos AS pla ON pla.idPlano = i.idPlano 
-            WHERE c.idCliente = :id  ORDER BY i.vencimento ASC; 
-        ";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(":id", $id);
-        $stmt->execute();
+        
+    
+        $query = $this->selectDB(
+            "c.nomeCliente, c.cpf, i.vencimento, i.situacao, pla.nomePlano, pla.valorPlano, g.nomeGrupo", 
 
-        $count = $stmt->rowCount();
+            "tb_cliente AS c JOIN tb_usuario_invest AS i ON c.idCliente = i.idCliente 
+
+            JOIN tb_planos AS pla ON pla.idPlano = i.idPlano 
+
+            JOIN tb_grupos AS g ON i.idGrupo = g.idGrupo",
+
+            "WHERE c.idCliente = ? ORDER BY i.vencimento ASC", array($id));
+    
+        $count = $query->rowCount();
         
         if($count > 0) {
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $data = $query->fetchAll(PDO::FETCH_ASSOC);
             return $data;
+        } else {
+            return $count;
         }
     }
 
