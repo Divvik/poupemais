@@ -29,6 +29,9 @@ define('DB_USER', 'root');
 define('DB_PASSWORD', '');
 define('CHAR_SET', 'charset=utf8');
 
+// DEBUG TRATAMENTO DE ERRO
+define('DEBUG', true);
+
 // Recptcha
 # Outras informações
 define("SITEKEY","6LcTy5cUAAAAACxOvmDYhhqbi9xdBxnN1yC3m9EH");

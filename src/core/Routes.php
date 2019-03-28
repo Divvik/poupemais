@@ -20,19 +20,13 @@ class Routes
         if(file_exists(CONTROLLERS . $this->controller .'.php')) {
             $controller = "App\\Controllers\\" . $this->controller;
             $this->controller = new $controller;
-
+        
         
             if(method_exists($this->controller, $this->action)) {
                 call_user_func_array([$this->controller, $this->action],$this->param);
-            } else {
-                $error = "App\\Controllers\\ErrorController";
-                $controller = new $error;
-                $controller->index();    
-            }
+            } 
         } else {
-            $error = "App\\Controllers\\ErrorController";
-            $controller = new $error;
-            $controller->index();
+            require_once VIEWS . '404Error/index.php';
         }
     }
 
