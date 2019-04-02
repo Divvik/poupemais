@@ -1,12 +1,12 @@
 /* Geral */
-* {margin:0;padding:0;text-decoration: none; list-style: none;}
-body {font-family: 'Ubuntu', sans-serif; font-size: 120%; height: 100%; width: 100%; box-sizing: border-box;}
+* {margin:0;padding:0;text-decoration: none; list-style: none; box-sizing: border-box;}
+body {font-family: 'Ubuntu', sans-serif; font-size: 120%; height: 100%; width: 100%;}
 
 .container {max-width: 960px; width: 100%; margin: 0 auto;}
 
 /* Header */
 .grid {display: grid; grid-template-columns: 1fr 1fr; align-items: center;}
-header {padding: 1em 0;width: 100%; box-shadow: 0px 3px 3px #c1c1c1;}
+header {padding: 1em 0;width: 100%; height: 100%; box-shadow: 0px 3px 3px #c1c1c1;}
 
 /* Logo */
 .logo{background-image: url('../img/Logo-Poupe.png'); background-repeat: no-repeat; background-position: center center; background-size: 100% 100%; width: 150px; height: 50px; text-indent: -999999px;}
@@ -51,27 +51,155 @@ header {padding: 1em 0;width: 100%; box-shadow: 0px 3px 3px #c1c1c1;}
 #table-dashboard tr:hover {background-color: #ddd;}
 
 /* Style formulario cadastro */
-#form-cadastro-cliente{width: 720px; margin: 5em auto 0 auto; font-size: .8em; line-height: 1.2em; padding: 1em;}
-#form-cadastro-cliente legend{width: 100%; font-size: 1.2em; line-height: 1.8em; color: #fff; font-weight: 500; background-color: #009EBC; padding: .5em 0; margin-bottom: 3em; display: block; text-align: center;}
+#form-cad-cliente {
+    width: 700px;
+    height: 500px;
+    margin: 60px auto;
+    text-align: center;
 
-label{color:#009EBC; font-size: .8rem;}
+    position: relative;
+}
 
-.container-input{position: relative; width: 100%; margin: 1.5em 0;}
-.container-input input{width: 100%; border: none; border-bottom: 1px solid #009EBC; outline: none; font-size: 1rem;}
-.container-input label{top: 0;left: 0;right: 0;color: #009EBC;display: flex;align-items: center;position: absolute; font-size: .8rem;cursor: text; transition: .2s ease-in-out;}
-.container-input input, .container-input label {width: 100%; height: 3em;}
+/* Fieldset */
+#form-cad-cliente fieldset {
+    width: 80%;
+    margin: 0 auto;
+    border: 0 none;
+    box-shadow: 0 0 8px 1px rgba(0,0,0,0.2);
+    padding: 20px 30px;
+    border-radius: 2px;
 
-.input-floats{width: 45%; margin: 1em 0 2em 0;}
-.float-left{float: left;}
-.clear{clear: both;}
-.m-right{margin-right: 3.4em;}
+    background-color: #fff;
+    box-sizing: border-box;
+    margin: 0 10%;
 
-#estado, #estado_civil{margin: 1em 0; width: 20%; height: 2.5em; border: 1px solid #009EBC; background-color: #009EBC; color: #fff; padding: .5em 0}
-label[for="estado"]{margin-right: 1em;}
-select{font-weight: 600; font-size: .8em;}
-/* Interation */
-.container-input input:valid, .container-input input:focus {border-bottom: 1px solid #004E9B;}
-.container-input input:valid + label, .container-input input:focus + label {color: #004E9B;font-size: 1em; top: -30px; pointer-events: none;}
+  /* empilhando conjuntos de campos acima um do outro  */
+    position: absolute;
+}
+
+/* Ocultar tudo, exceto primeiro conjunto de campos */
+#form-cad-cliente fieldset:not(:first-of-type) {
+    display: none;
+}
+
+/* inputs */
+#form-cad-cliente input, #form-cad-cliente select, #form-cad-cliente button {
+    font-size: 14px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+#form-cad-cliente input:focus,
+#form-cad-cliente input:active, 
+#form-cad-cliente select:focus,
+#form-cad-cliente select:active{
+    outline: 1px solid #009EBC;
+    box-shadow: 0 0 3px #ddd;
+} 
+#form-cad-cliente select option{
+    color: #000;
+}
+
+#form-cad-cliente input::placeholder {
+    color: #999;
+}
+
+select:invalid{
+    color: #999;
+}
+
+/* buttons */
+#form-cad-cliente .action-btn{
+    font-weight: bold;
+    width: 100px;
+    background-color: #004E9B;
+    color: #fff;
+    border: 0 none;
+    border-radius: 1px;
+    cursor: pointer;
+    padding: 10px 5px;
+    float: right;
+    outline: none;
+}
+
+/* primeiro botão centralizado */
+#form-cad-cliente fieldset:first-of-type .action-btn{
+    float: none;
+}
+
+#form-cad-cliente .previous-btn{
+    background-color: #d3432a;
+    float: left;
+}
+
+/* Cabeçalho */
+#form-cad-cliente .fs-title{
+    font-size: 16px;
+    text-transform: uppercase;
+    color: #009EBC;
+    margin-bottom: 10px;
+}
+
+/* progressbar */
+#progressbar {
+    width: 80%;
+    margin: 60px auto;
+    margin-bottom: 30px;
+    overflow: hidden;
+
+    /* CSS  contadores para numerar as etapas */
+    counter-reset: step;
+}
+
+#progressbar li {
+    font-size: 10px;
+    width: 25%;
+    float: left;
+    list-style: none;
+    color: #666;
+    text-transform: uppercase;
+    position: relative;
+    text-align: center;
+}
+
+#progressbar li:before{
+    content: counter(step);
+    counter-increment: step 1;
+    font-size: 12px;
+    width: 25px;
+    display: block;
+    line-height: 20px;
+    color: #fff;
+    border-radius: 3px;
+    margin: 0 auto 5px auto;
+    background-color: #c1c1c1;
+}
+
+/* conectores da barra de progresso */
+#progressbar li:after{
+    content: "";
+    width: 100%;
+    height: 2px;
+    background-color: #c1c1c1;
+    position: absolute;
+    left: -50%;
+    top: 9px;
+    z-index: -1; /* coloque atrás dos números */
+}
+
+/* conector não necessário antes do primeiro passo */
+#progressbar li:first-child:after{
+    content: none;
+}
+
+/* marcação ativa / concluída etapas gree */
+/* O número da etapa e o conector antes dele = verde */
+#progressbar li.active:before, #progressbar li.active:after{
+    background-color: #27ae60;
+    color: white;
+}
 
 /* Estilizando os alerta ajax */
 .dados-em-brancos{text-align: right;}
@@ -79,4 +207,4 @@ select{font-weight: 600; font-size: .8em;}
 .success{color: #388a18;}
 .warning{color: #c94d37;}
 /* Footer */
-footer{width: 100%; text-align: center; font-size: .7em; line-height: 1.05em; clear: both; margin-top: 7%; margin-bottom: 2%; color: #000;}
+footer{width: 100%; text-align: center; font-size: .7em; line-height: 1.05em; margin-bottom: 2%; color: #000;}
