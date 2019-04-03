@@ -22,8 +22,8 @@ getCaptcha();
 // requisição servidor
 
 // Ajax do formulário de cadastro
-var formCad = document.querySelector("#form-cadastro-cliente");
-$("#form-cadastro-cliente").on("submit", function(event){
+var formCad = document.querySelector("#form-cad-cliente");
+$("#form-cad-cliente").on("submit", function(event){
     event.preventDefault();
     var dados = $(this).serialize();
 

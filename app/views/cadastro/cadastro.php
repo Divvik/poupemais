@@ -31,7 +31,6 @@
 				<input type="text" name="c_bairro" id="bairro" placeholder="Bairro" required/>
 				<input type="text" name="c_cep" id="cep" placeholder="CEP" required/>
 				<input type="text" name="c_cidade" id="cidade" placeholder="Cidade" required/>
-
 				<select name="c_estado" id="estado" required>
 					<option value="" selected disabled hidden>Estado</option>
 					<option value="SP">SP</option>
@@ -58,16 +57,20 @@
 				<h2 class="fs-title">Planos</h2>
 				<select name="name-plano" id="nome-plano" required>
 					<option value="" selected disabled hidden>Escolha Plano</option>
-					<option value="seis meses">6 Meses</option>
-					<option value="doze meses">12 Meses</option>
+					<?php foreach ($data['planos'] as $nomePlano):?>
+						<option value="<?= $nomePlano['idPlano'] ?>"><?= $nomePlano['nomePlano']?></option>
+					<?php endforeach ; ?>
 				</select>
 				<select name="plano" id="nome-plano" required>
 					<option value="">Escolha Valor</option>
-					<option value="50.00">R$ 50,00</option>
-					<option value="100.00">R$ 100,00</option>
-					<option value="150.00">R$ 150,00</option>
-					<option value="200.00">R$ 200,00</option>
+					<?php foreach ($data['planos'] as $valorPlano) : ?>
+						<option value="<?= $valorPlano['idPlano'] ?>">R$ <?= number_format($valorPlano['valorPlano'],2,",",".") ?></option> 
+					<?php endforeach ?>; 
 				</select>
+				<p class="cpf alert"></p>
+				<p class="email alert"></p>
+				<p class="senha-strong alert"></p>
+				<p class="conf-senha alert"></p>
 				<p class="dados-em-brancos alert"></p>
 				<p class="alert alert-success"></p>
 				<input type="hidden" name="c_g-recaptcha-response" id="g-recaptcha-response">

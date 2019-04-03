@@ -93,9 +93,4 @@ class LoginController extends Controllers
             exit();
         }
     }
-
-    public function cadastrar()
-    {
-        $this->view->render('login/cadastrar');
-    }
 }
