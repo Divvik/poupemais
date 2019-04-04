@@ -15,7 +15,7 @@
 				<input type="text" name="c_cpf" id="cpf" placeholder="CPF" required/>
 				<p class="cpf alert"></p>
 				<input type="text" name="c_rg" id="rg" placeholder="RG" required/>
-				<select name="c_estado_civil" class="w50" id="estado_civil" required>
+				<select name="c_estado_civil" id="estado-civil" required>
 					<option value="" selected disabled hidden>Estado Civil</option>
 					<option value="Solteiro">Solteiro</option>
 					<option value="Casado">Casado</option>
@@ -61,7 +61,7 @@
 						<option value="<?= $nomePlano['idPlano'] ?>"><?= $nomePlano['nomePlano']?></option>
 					<?php endforeach ; ?>
 				</select>
-				<select name="plano" id="nome-plano" required>
+				<select name="plano" id="valor-plano" required>
 					<option value="">Escolha Valor</option>
 					<?php foreach ($data['planos'] as $valorPlano) : ?>
 						<option value="<?= $valorPlano['idPlano'] ?>">R$ <?= number_format($valorPlano['valorPlano'],2,",",".") ?></option> 
@@ -69,8 +69,13 @@
 				</select>
 				<p class="cpf alert"></p>
 				<p class="email alert"></p>
+<<<<<<< HEAD:app/views/cadastro/cadastro.php
 				<p class="senha-strong alert"></p>
 				<p class="conf-senha alert"></p>
+=======
+				<p class="conf-senha alert"></p>
+				<p class="senha-strong alert"></p>
+>>>>>>> master:app/views/login/cadastrar.php
 				<p class="dados-em-brancos alert"></p>
 				<p class="alert alert-success"></p>
 				<input type="hidden" name="c_g-recaptcha-response" id="g-recaptcha-response">
