@@ -20,6 +20,14 @@ class CadastrarDB extends ClassCrud
         return $this->id['idUsuario'];
     }
 
+    # Seleciona tabela plano
+    public function selectPlano()
+    {
+        $query = $this->selectDB("idPlano, nomePlano, valorPlano","tb_planos","", array());
+        $plano = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $plano;
+    }
+
     # Insere um usuario 
     public function insertUser($arrVar)
     {   
