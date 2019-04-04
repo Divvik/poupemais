@@ -193,9 +193,9 @@ INSERT INTO grupos (nome) VALUES ('Grupo1'),('Grupo2'),('Grupo3');
 
 /* INVESTIMENTO */
 SELECT * FROM investimentos;
-INSERT INTO investimentos (numero_investimento,data_contratacao,id_cliente,id_usuario,id_plano,id_grupo) VALUES (0001,CURDATE(),1,1,1,1);
-INSERT INTO investimentos (numero_investimento,data_contratacao,id_cliente,id_usuario,id_plano,id_grupo) VALUES (0002,CURDATE(),2,2,5,2);
-INSERT INTO investimentos (numero_investimento,data_contratacao,id_cliente,id_usuario,id_plano,id_grupo) VALUES (0003,CURDATE(),2,2,2,1);
+INSERT INTO investimentos (numero_investimento,data_contratacao,id_cliente,id_usuario,id_grupo) VALUES (0001,CURDATE(),1,1,1);
+INSERT INTO investimentos (numero_investimento,data_contratacao,id_cliente,id_usuario,id_grupo) VALUES (0002,CURDATE(),2,5,2);
+INSERT INTO investimentos (numero_investimento,data_contratacao,id_cliente,id_usuario,id_grupo) VALUES (0003,CURDATE(),2,2,1);
 
 /* VENCIMENTOS */
 SELECT * FROM vencimentos;

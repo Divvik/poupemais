@@ -58,24 +58,15 @@
 				<select name="name-plano" id="nome-plano" required>
 					<option value="" selected disabled hidden>Escolha Plano</option>
 					<?php foreach ($data['planos'] as $nomePlano):?>
-						<option value="<?= $nomePlano['idPlano'] ?>"><?= $nomePlano['nomePlano']?></option>
+						<option value="<?= $nomePlano['id'] ?>"><?= $nomePlano['nome']?></option>
 					<?php endforeach ; ?>
-				</select>
-				<select name="plano" id="valor-plano" required>
-					<option value="">Escolha Valor</option>
-					<?php foreach ($data['planos'] as $valorPlano) : ?>
-						<option value="<?= $valorPlano['idPlano'] ?>">R$ <?= number_format($valorPlano['valorPlano'],2,",",".") ?></option> 
-					<?php endforeach ?>; 
 				</select>
 				<p class="cpf alert"></p>
 				<p class="email alert"></p>
-<<<<<<< HEAD:app/views/cadastro/cadastro.php
 				<p class="senha-strong alert"></p>
 				<p class="conf-senha alert"></p>
-=======
 				<p class="conf-senha alert"></p>
 				<p class="senha-strong alert"></p>
->>>>>>> master:app/views/login/cadastrar.php
 				<p class="dados-em-brancos alert"></p>
 				<p class="alert alert-success"></p>
 				<input type="hidden" name="c_g-recaptcha-response" id="g-recaptcha-response">
