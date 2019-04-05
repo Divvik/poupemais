@@ -4,36 +4,18 @@ namespace App\Controllers;
 
 # Use
 use App\Models\CadastrarDB;
-use Src\Core\ClassCrud;
-use Src\Core\PasswordController;
-use PDO;
+// use Src\Core\ClassCrud;
+// use Src\Core\PasswordController;
 use ZxcvbnPhp\Zxcvbn;
+// use PDO;
+
 
 
 # Classe Cadastrar
 class ValidarController
 {   
     private $erro = [];
-    private $cadastro;
-    private $nome;
-    private $cpf;
-    private $rg;
-    private $estado_civil;
-    private $endereco;
-    private $bairro;
-    private $cep;
-    private $cidade;
-    private $estado;
-    private $telefone;
-    private $email;
-    private $login;
-    private $senha;
-    private $hashSenha;
-    private $confSenha;
-    private $dataCreate;
-    private $token;
-    private $status = 'confirmation';
-    private $gRecaptchaResponse;
+    private $cadastro;    
 
     # Erros
     private $erroEmail = NULL;
@@ -41,50 +23,29 @@ class ValidarController
     private $erroStrongSenha = NULL;
     private $erroConfSenha = NULL;
 
-    public function __construct()
-    {   
-        # Instancia da Class CadastrarDB
-        $this->cadastro = new CadastrarDB();
+    // public function __construct()
+    // {   
 
-        # Validações 
-        $this->validarCadastro($_POST);
-        $this->validarFields();
-        $this->validaCpf('c_cpf');
-        $this->validaEmail('c_email');
-        $this->validaIssetEmail($this->email);
-        $this->validateStrongSenha($this->senha);
-        $this->validaConfSenha($this->senha, $this->confSenha);
-        $this->validateCaptcha($this->gRecaptchaResponse);
 
-        # Array com as informações do cadastro
-        $arraVar = [
-            "email"=>$this->email,
-            "hashSenha"=>$this->hashSenha,
-            "login"=>$this->login,
-            "nome"=>$this->nome,
-            "cpf"=>$this->cpf,
-            "rg"=>$this->rg,
-            "estado_civil"=>$this->estado_civil,
-            "endereco"=>$this->endereco,
-            "bairro"=>$this->bairro,
-            "cep"=>$this->cep,
-            "cidade"=>$this->cidade,
-            "estado"=>$this->estado,
-            "telefone"=>$this->telefone,
-            "date_cadastro"=>$this->dataCreate,
-            "status"=>$this->status,
-            "token"=>$this->token,
-        ];
+        // # Validações 
+        // $this->validarCadastro($_POST);
+        // $this->validarFields();
+        // $this->validaCpf('c_cpf');
+        // $this->validaEmail('c_email');
+        // $this->validaIssetEmail($this->email);
+        // $this->validateStrongSenha($this->senha);
+        // $this->validaConfSenha($this->senha, $this->confSenha);
+        // $this->validateCaptcha($this->gRecaptchaResponse);
 
-        # Validação final do formulario junto com json
-        echo $this->validateFinalCad(); 
+        // # Validação final do formulario junto com json
+        // echo $this->validateFinalCad(); 
 
-        # Dados enviado para o banco de dados
-        $this->cadastro->insertUser($arraVar);
-        $this->cadastro->insertCliente($arraVar,$this->cadastro->selectUltId());
-        $this->cadastro->insertConfirmation($arraVar);
+        // # Dados enviado para o banco de dados
+        // $this->cadastro->insertUser($arraVar);
+        // $this->cadastro->insertCliente($arraVar,$this->cadastro->selectUltId());
+        // $this->cadastro->insertConfirmation($arraVar);
         
-    }
+    // }
     
     # Obtem um erro
     public function getErro()
@@ -108,57 +69,16 @@ class ValidarController
             }
         }
         
-        if($i==0) {
-            return true;
-            
+        if($i == 0) {
+            echo "OK";
+            // return true;
         } else {
             $this->setErro('Preencha todos os dados!');
-            return false;
+            echo 'erro';
+            // return false;
         }
     }
 
-    # Valida os campos vindo do formulario
-    public function validarFields()
-    {   
-        # Validando os campos 
-        (isset($_POST['c_nome']) && !empty($_POST['c_nome']) ? $this->nome = filter_input_post('c_nome') : $this->nome = null); 
-        (isset($_POST['c_cpf']) && !empty($_POST['c_cpf']) ? $this->cpf = filter_input_post('c_cpf') : $this->cpf = null);
-        (isset($_POST['c_rg']) && !empty($_POST['c_rg']) ? $this->rg = filter_input_post('c_rg') : $this->rg = null);
-        (isset($_POST['c_estado_civil']) && !empty($_POST['c_estado_civil']) ? $this->estado_civil = filter_input_post('c_estado_civil') : $this->estado_civil = null);
-        (isset($_POST['c_endereco']) && !empty($_POST['c_endereco']) ? $this->endereco = filter_input_post('c_endereco') : $this->endereco = null);
-        (isset($_POST['c_bairro']) && !empty($_POST['c_bairro']) ? $this->bairro = filter_input_post('c_bairro') : $this->bairro = null);
-        (isset($_POST['c_cep']) && !empty($_POST['c_cep']) ? $this->cep = filter_input_post('c_cep') : $this->cep = null);
-        (isset($_POST['c_cidade']) && !empty($_POST['c_cidade']) ? $this->cidade = filter_input_post('c_cidade') : $this->cidade = null);
-        (isset($_POST['c_estado']) && !empty($_POST['c_estado']) ? $this->estado = filter_input_post('c_estado') : $this->estado = null);
-        (isset($_POST['c_telefone']) && !empty($_POST['c_telefone']) ? $this->telefone = filter_input_post('c_telefone') : $this->telefone = null);
-        (isset($_POST['c_email']) && !empty($_POST['c_email']) ? $this->email = filter_input(INPUT_POST, 'e_email', FILTER_VALIDATE_EMAIL) : $this->email = null);
-        (isset($_POST['c_login']) && !empty($_POST['c_login']) ? $this->login = filter_input_post('c_login') : $this->login = null);
-        (isset($_POST['c_g-recaptcha-response']) && !empty($_POST['c_g-recaptcha-response'])) ? $this->gRecaptchaResponse = $_POST['c_g-recaptcha-response'] : $this->gRecaptchaResponse = NULL;
-        # Criando uma senha hash 
-        $objPass = new PasswordController();
-        if(isset($_POST['c_senha']) && !empty($_POST['c_senha'])) { 
-            $this->senha = filter_input_post('c_senha'); 
-            $this->hashSenha = $objPass->passwordHash($this->senha);
-        } else{
-            $this->hashSenha = null; 
-        }
-
-        if(isset($_POST['c_conf-senha']) && !empty($_POST['c_conf-senha'])) {
-            $this->confSenha = filter_input_post('c_conf-senha');
-        } else{
-            $this->confSenha = null; 
-        }
-
-        # Se estiver passando dados via post cria uma data atual e um token
-        if(isset($_POST)) {
-            $this->dataCreate = date("Y-m-d H:i:s");
-            $this->token=bin2hex(random_bytes(64));
-        } else {
-            $this->dataCreate = NULL;
-            $this->token = NULL;
-        }
-    }
-    
     # Validação de email
     public function validaEmail($c_email)
     {
@@ -171,22 +91,29 @@ class ValidarController
                 $this->erroEmail = "Email inválido!";
                 return false;
             } else {
-                return $this->email = $email;
+                return $email;
             }
         }
     }
 
     #Valida se email existe no banco de dados
     public function validaIssetEmail($email)
-    {
+    {   
+        # Instancia da Class CadastrarDB
+        $this->cadastro = new CadastrarDB;
         $b = $this->cadastro->getEmail($email);
-
-        if($b > 0) {
-            $this->erroEmail = "Email já cadastrado!";
-            return false;
+        
+        if($email != NULL) {
+            if($b > 0) {
+                $this->erroEmail = "Email já cadastrado!";
+                return false;
+            } else {
+                return true;
+            }
         } else {
-            return true;
+            $this->setErro('Informe o seu email!');
         }
+        
     }
 
     # Valida CPF

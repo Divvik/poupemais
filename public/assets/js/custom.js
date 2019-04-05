@@ -40,6 +40,7 @@ $("#form-cad-cliente").on("submit", function(event){
             $('.dados-em-brancos').empty();
             $('.retornoCad').empty();
             if(response.retorno == 'erro') {
+                console.log(response.retorno);
                 getCaptcha();
                 $('.cpf').append(response.cpf).addClass('warning');
                 $('.email').append(response.email).addClass('warning');
@@ -47,6 +48,7 @@ $("#form-cad-cliente").on("submit", function(event){
                 $('.conf-senha').append(response.senhaConf).addClass('warning');
                 $('.dados-em-brancos').append(response.erros).addClass('warning');
             } else {
+                console.log(response.retorno);
                 $('.alert-success').append('Cadastro efetuado com sucesso!').addClass('success');
                 window.location = 'http://localhost/poupemais/login';
             }

@@ -11,10 +11,6 @@ class CadastrarDB extends ClassCrud
 {
     private $dataCad;
     private $dataAtual;
-    private $idUsuario;
-    private $idCliente;  
-    private $idPlano;
-    private $idGrupo;
 
     # Data Cadastro 
     public function getDateCad()
@@ -26,92 +22,93 @@ class CadastrarDB extends ClassCrud
     {
         return $this->dataAtual = Date('Y-m-d');
     }
-
+    
+    # Select plano
+    public function selectPlano()
+    {
+        $plano = $this->selectDB("*","planos","",array());
+        $result = $plano->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+    
     # 1° Inserção banco de dados
     # Insere um usuario 
     public function insertUser($arrVar)
     {   
         $this->insertDB("usuarios (login, senha, email,data_cadastro, status)","?,?,?,?,?",array($arrVar['login']),$arrVar['hashSenha'],$arrVar['email'], $array['data_cad'], 'confirmar');
     }
-    # Seleciona o ultimo ID para acrescentar na tabela cliente
-    public function selectUltId()
-    {
-        $result = $this->selectDB("*","usuarios", "ORDER BY id DESC limit 1", array());
-        $id = $result->fetch(PDO::FETCH_ASSOC);
-        return $this->idUsuario = $id['id'];
-    }
-
+    
     # 2º Inserção banco de dados
     # Insere um cliente
     public function insertCliente($arrVar)
     {
+        $result = $this->selectDB("*","usuarios", "ORDER BY id DESC limit 1", array());
+        $dado = $result->fetch(PDO::FETCH_ASSOC);
+        $idUsuario = $dado['id'];
+
         $this->insertDB("clientes (nome,cpf,rg,estado_civil,telefone,endereco,bairro,cep,cidade,estado,id_usuario)", 
             "?,?,?,?,?,?,?,?,?,?,?,?,?",
-        array($arrVar['nome'],$arrVar['cpf'],$arrVar['rg'],$arrVar['estado_civil'],$arrVar['telefone'],$arrVar['endereco'],$arrVar['bairro'],$arrVar['cep'],$arrVar['cidade'],$arrVar['estado'], $this->idUsuario));
+        array(
+            $arrVar['nome'],
+            $arrVar['cpf'],
+            $arrVar['rg'],
+            $arrVar['estado_civil'],
+            $arrVar['telefone'],
+            $arrVar['endereco'],
+            $arrVar['bairro'],
+            $arrVar['cep'],
+            $arrVar['cidade'],
+            $arrVar['estado'], 
+            $idUsuario)
+        );
     }
 
     # 3º Inserção banco de dados
-    # Insere um investimento
-    # Seleciona tabela plano
-    public function selectPlano()
-    {
-        $query = $this->selectDB("id, nome","planos","", array());
-        $plano = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $plano;
-    }
-    # Seleciona o ultimo id do plano
-    public function selectUltIdPlano()
-    {
-        $result = $this->selectDB("*","planos", "ORDER BY id DESC limit 1", array());
-        $id = $result->fetch(PDO::FETCH_ASSOC);
-        return $this->idPlano = $id['id'];
-    }
-    # Seleciona o ultimo usuario
-    public function selectUltIdCliente()
-    {
+    # Insere investimentos
+    public function insertInvest()
+    {   
+        # Seleciona o ultimo id do cliente
         $result = $this->selectDB("*","clientes", "ORDER BY id DESC limit 1", array());
-        $id = $result->fetch(PDO::FETCH_ASSOC);
-        return $this->idCliente = $id['id'];
-    }
-    # Seleciona tabela grupos
-    public function selectGrupos()
-    {
+        $cliente = $result->fetch(PDO::FETCH_ASSOC);
+        $idCliente = $cliente['id'];
+
+        # Seleciona o ultimo id do plano
+        $result = $this->selectDB("*","planos", "ORDER BY id DESC limit 1", array());
+        $plano = $result->fetch(PDO::FETCH_ASSOC);
+        $idPlano = $plano['id'];
+
         $query = $this->selectDB("id, nome","grupos","", array());
         $row = $query->rowCount();
         
         if($row < 10) {
             $grupo = $query->fecthAll(PDO::FETCH_ASSOC);
-            $this->idGrupo = $grupo['id'];
-            return $this->idGrupo;
+            $idGrupo = $grupo['id'];
+            return $idGrupo;
+        } else {
+            return false;
         }
-        return false;
-    }
-    # Select numero investimento
-    public function selectNumInvest()
-    {
+
+        # Seleciona o ultimo numero do investimento
         $result = $this->selectDB("*","investimentos", "ORDER BY id DESC limit 1", array());
-        $id = $result->fetch(PDO::FETCH_ASSOC);
-        return $this->id = $id['id'] + 1;
-    }
-    # Insere investimentos
-    public function insertInvest()
-    {
+        $investimento = $result->fetch(PDO::FETCH_ASSOC);
+        $numInvest['numero_investimento'] + 1;
+
         $this->insertDB("investimentos (numero_investimento,data_contratacao,id_cliente,id_plano,id_grupo)", 
             "?,?,?,?,?", array(
-                $this->selectNumInvest(),
+                $numInvest,
                 $this->getDataAtual(),
-                $this->idCliente,
-                $this->idPlano,
-                $this->idGrupo
+                $idCliente,
+                $idPlano,
+                $idGrupo
             ));
     }
+
     # 4º Inserção banco de dados
     # Insere vencimentos
-    public function insertVencimentos($arr,)
+    public function insertVencimentos($arr)
     {   
         $this->insertDB("vencimentos (parcela,vencimento,valor,situacao,investimentos_id)",
             "?,?,?,?,?",
-            if()
             array(
             )
         );
@@ -130,5 +127,5 @@ class CadastrarDB extends ClassCrud
         $result = $query->rowCount();
         return $result;
     }
-
+    
 }
