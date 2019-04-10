@@ -55,7 +55,7 @@
 			</fieldset>
 			<fieldset>
 				<h2 class="fs-title">Planos</h2>
-				<select name="name-plano" id="nome-plano" required>
+				<select name="name_plano" id="nome-plano" required>
 					<option value="" selected disabled hidden>Escolha Plano</option>
 					<?php foreach ($data['planos'] as $nomePlano):?>
 						<option value="<?= $nomePlano['id'] ?>"><?= $nomePlano['nome']?></option>
@@ -66,6 +66,7 @@
 				<p class="senha-strong alert"></p>
 				<p class="conf-senha alert"></p>
 				<p class="dados-em-brancos alert"></p>
+				<p class="captcha alert"></p>
 				<p class="alert alert-success"></p>
 				<input type="hidden" name="c_g-recaptcha-response" id="g-recaptcha-response">
 				<button type="button" class="action-btn previous-btn previous">anterior</button>

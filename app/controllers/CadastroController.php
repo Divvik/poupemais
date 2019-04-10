@@ -9,6 +9,7 @@ use App\Models\CadastrarDB;
 use Src\Core\PasswordController;
 use App\Controllers\ValidarController;
 use PDO;
+use Src\Core\Mail;
 
 # Declarando a class
 class CadastroController extends Controllers
@@ -16,6 +17,7 @@ class CadastroController extends Controllers
     # variaveis classes
     private $valida;
     private $cadastroDB;
+    private $mail;
 
     # Variaveis formulario
     private $nome;
@@ -34,20 +36,10 @@ class CadastroController extends Controllers
     private $hashSenha;
     private $confSenha;
     private $dataCreate;
+    private $plano;
     private $token;
     private $status = 'confirmation';
     private $gRecaptchaResponse;
-
-    // private $cadastroDB;
-    // public function __construct()
-    // {
-    //     parent::__construct();
-    //     echo "Calcula as parcela a partir de hoje<br/>";
-    //     $this->calcularParcelas(6);
-    //     echo "<br/><br/>";
-    //     echo "Calcula as parcela a partir de uma data qualquer<br/>";
-    //     $this->calcularParcelas(6, "04/04/2019");
-    // }
 
     public function index()
     {   
@@ -75,6 +67,7 @@ class CadastroController extends Controllers
         (isset($_POST['c_telefone']) && !empty($_POST['c_telefone']) ? $this->telefone = filter_input_post('c_telefone') : $this->telefone = null);
         (isset($_POST['c_login']) && !empty($_POST['c_login']) ? $this->login = filter_input_post('c_login') : $this->login = null);
         (isset($_POST['c_email']) && !empty($_POST['c_email']) ? $this->email = filter_input_post('c_email') : $this->email = null);
+        (isset($_POST['name_plano']) && !empty($_POST['name_plano']) ? $this->plano = filter_input(INPUT_POST, 'name_plano', FILTER_SANITIZE_NUMBER_INT) : $this->plano = null);
         (isset($_POST['c_g-recaptcha-response']) && !empty($_POST['c_g-recaptcha-response'])) ? $this->gRecaptchaResponse = $_POST['c_g-recaptcha-response'] : $this->gRecaptchaResponse = NULL;
         # Criando uma senha hash 
         $objPass = new PasswordController();
@@ -84,7 +77,7 @@ class CadastroController extends Controllers
         } else{
             $this->hashSenha = null; 
         }
-
+        # Confirma a senha
         if(isset($_POST['c_conf-senha']) && !empty($_POST['c_conf-senha'])) {
             $this->confSenha = filter_input_post('c_conf-senha');
         } else{
@@ -103,45 +96,73 @@ class CadastroController extends Controllers
 
     # Valida formulario
     public function validado()
-{       
+    {       
+        $this->mail = new Mail();
         # Validações 
+        $this->validarFields();
         $this->valida = new ValidarController;
-        // $this->valida->validarCadastro($_POST);
-        var_dump($_POST);
-        // $this->valida->validaCpf('c_cpf');
-        // $this->valida->validaEmail('c_email');
-        // $this->validarFields();
-        // $this->valida->validaIssetEmail($this->email);
-        // $this->valida->validateStrongSenha($this->senha);
-        // $this->valida->validaConfSenha($this->senha, $this->confSenha);
-        // $this->valida->validateCaptcha($this->gRecaptchaResponse);
+        $this->valida->validarCadastro($_POST);
+        $this->valida->validaCpf('c_cpf');
+        $this->valida->validaEmail('c_email');
+        $this->valida->validaIssetEmail($this->email);
+        $this->valida->validateStrongSenha($this->senha);
+        $this->valida->validaConfSenha($this->senha, $this->confSenha);
+        $this->valida->validateCaptcha($this->gRecaptchaResponse);
         
-        // # Validação final do formulario junto com json
-        // echo $this->valida->validateFinalCad(); 
-
         # Array com as informações do cadastro
         $arraVar = [
-            "email"=>$this->email,
-            "hashSenha"=>$this->hashSenha,
-            "login"=>$this->login,
-            "nome"=>$this->nome,
-            "cpf"=>$this->cpf,
-            "rg"=>$this->rg,
-            "estado_civil"=>$this->estado_civil,
-            "endereco"=>$this->endereco,
-            "bairro"=>$this->bairro,
-            "cep"=>$this->cep,
-            "cidade"=>$this->cidade,
-            "estado"=>$this->estado,
-            "telefone"=>$this->telefone,
-            "date_cadastro"=>$this->dataCreate,
-            "status"=>$this->status,
-            "token"=>$this->token,
+            "email"         => $this->email,
+            "hashSenha"     =>$this->hashSenha,
+            "login"         =>$this->login,
+            "nome"          =>$this->nome,
+            "cpf"           =>$this->cpf,
+            "rg"            =>$this->rg,
+            "estado_civil"  =>$this->estado_civil,
+            "endereco"      =>$this->endereco,
+            "bairro"        =>$this->bairro,
+            "cep"           =>$this->cep,
+            "cidade"        =>$this->cidade,
+            "estado"        =>$this->estado,
+            "telefone"      =>$this->telefone,
+            "plano"         =>$this->plano,
+            "date_cadastro" =>$this->dataCreate,
+            "status"        =>$this->status,
+            "token"         =>$this->token,
         ];
 
-
+        # Validação final do formulario junto com json
+        $response = json_decode($this->valida->validateFinalCad());
+        echo $this->valida->validateFinalCad();
+        if($response->retorno == 'erro') {
+            echo $this->valida->validateFinalCad();
+        } else {            
+            $this->cadastroDB = new CadastrarDB;
+            # Insere o usuario
+            $this->cadastroDB->insertUser($arraVar);
+            # Insere o cliente
+            $this->cadastroDB->insertCliente($arraVar);
+            # Insere o investimento
+            $this->cadastroDB->insertInvest($arraVar);
+            # Insere a confirmação de email
+            $this->cadastroDB->insertConfirmation($arraVar);
+            # Seleciona as parcelas do vencimentos
+            $vencimentos;
+            if($arraVar['plano'] <= 4) {
+                $vencimentos = $this->calcularParcelas(6);
+            } else {
+                $vencimentos = $this->calcularParcelas(12);
+            }
+            $this->cadastroDB->insertVencimentos($vencimentos,$arraVar);
+            
+            $this->mail->sendMail(
+                $arraVar['email'],$arraVar['login'], 
+                $arraVar['token'],'Confirmação de Cadastro', 
+                "Confirme seu email <a href='". DIRPAGE ."'controllers/ConfirmacaoController/{$arraVar['email']}/{$arraVar['token']}>clicando aqui<a/>");
+        }
+        
     }
     
+    # Calcula as datas da parcelas
     public function calcularParcelas($nParcelas, $dataPrimeiraParcela = null)
     {   
         $dataVencimento = [];
@@ -157,7 +178,7 @@ class CadastroController extends Controllers
         }
 
         for($x = 0; $x < $nParcelas; $x++){
-            $dado = date("d/m/Y",strtotime("+".$x." month",mktime(0, 0, 0,$mes,$dia,$ano)));
+            $dado = date("Y/m/d",strtotime("+".$x." month",mktime(0, 0, 0,$mes,$dia,$ano)));
             array_push($dataVencimento, $dado); 
         }
         return $dataVencimento;

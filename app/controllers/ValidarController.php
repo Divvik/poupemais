@@ -4,48 +4,24 @@ namespace App\Controllers;
 
 # Use
 use App\Models\CadastrarDB;
-// use Src\Core\ClassCrud;
-// use Src\Core\PasswordController;
 use ZxcvbnPhp\Zxcvbn;
-// use PDO;
-
-
-
+use App\Models\LoginDB;
+use App\Controllers\LoginController;
+use Src\Core\Mail;
 # Classe Cadastrar
 class ValidarController
 {   
     private $erro = [];
-    private $cadastro;    
+    private $cadastro;
 
     # Erros
+    private $dadosNull = NULL;
+    private $captchaErro = NULL;
     private $erroEmail = NULL;
     private $erroCPF = NULL;
     private $erroStrongSenha = NULL;
     private $erroConfSenha = NULL;
-
-    // public function __construct()
-    // {   
-
-
-        // # Validações 
-        // $this->validarCadastro($_POST);
-        // $this->validarFields();
-        // $this->validaCpf('c_cpf');
-        // $this->validaEmail('c_email');
-        // $this->validaIssetEmail($this->email);
-        // $this->validateStrongSenha($this->senha);
-        // $this->validaConfSenha($this->senha, $this->confSenha);
-        // $this->validateCaptcha($this->gRecaptchaResponse);
-
-        // # Validação final do formulario junto com json
-        // echo $this->validateFinalCad(); 
-
-        // # Dados enviado para o banco de dados
-        // $this->cadastro->insertUser($arraVar);
-        // $this->cadastro->insertCliente($arraVar,$this->cadastro->selectUltId());
-        // $this->cadastro->insertConfirmation($arraVar);
-        
-    // }
+    
     
     # Obtem um erro
     public function getErro()
@@ -70,12 +46,10 @@ class ValidarController
         }
         
         if($i == 0) {
-            echo "OK";
-            // return true;
+            return true;
         } else {
-            $this->setErro('Preencha todos os dados!');
-            echo 'erro';
-            // return false;
+            $this->dadosNull = 'Preencha todos os dados!';
+            return false;
         }
     }
 
@@ -111,7 +85,7 @@ class ValidarController
                 return true;
             }
         } else {
-            $this->setErro('Informe o seu email!');
+            $this->erroEmail = 'Informe o seu email!';
         }
         
     }
@@ -154,7 +128,7 @@ class ValidarController
 
     # Verifica se a senha é igual a confirmação de senha
     public function validaConfSenha($senha, $confSenha)
-    {
+    {   
         if($senha === $confSenha){
             return true;
         } else {
@@ -168,12 +142,15 @@ class ValidarController
     {   
         // Referencia https://github.com/bjeavons/zxcvbn-php
         $zxcvbn = new Zxcvbn();
-        $strength = $zxcvbn->passwordStrength($senha);
-
-        if($strength['score'] >= 3) {
-            return true;
+        if($senha != NULL) {
+            $strength = $zxcvbn->passwordStrength($senha);
+            if($strength['score'] >= 3) {
+                return true;
+            } else {
+                $this->erroStrongSenha = "Digite uma senha mais forte!";
+            }
         } else {
-            $this->erroStrongSenha = "Digite uma senha mais forte!";
+            $this->erroStrongSenha = "Informe sua senha!";
         }
         # Score retorna um valor de 0 a 4, sendo 0 fraca e 4 muito forte
     }
@@ -194,10 +171,19 @@ class ValidarController
     public function validateFinalCad()
     {
         $arrResponse = array();
-        
-        if(count($this->getErro()) > 0 ) {
+        if(count($this->getErro()) > 0) {
             $arrResponse["retorno"] = "erro";
-            $arrResponse["erros"] = $this->getErro();
+            $arrResponse["captcha"] = $this->getErro();
+        }
+
+        if($this->dadosNull != NULL) {
+            $arrResponse["retorno"] = "erro";
+            $arrResponse["erros"] = $this->dadosNull;
+        }
+
+        if($this->erroCPF != NULL){
+            $arrResponse["retorno"] = "erro";
+            $arrResponse["cpf"] = $this->erroCPF;   
         }
 
         if($this->erroCPF != NULL)
@@ -218,12 +204,31 @@ class ValidarController
         if($this->erroConfSenha != NULL){
             $arrResponse["retorno"] = "erro";
             $arrResponse["senhaConf"] = $this->erroConfSenha;
-        }
-
+        }      
+        
         if(count($arrResponse) == 0){
             $arrResponse["retorno"] = "success";
         }
         
         return json_encode($arrResponse);
+    }
+
+    # Método de validação de confirmação de email
+    # Verifica o status e se a data de cadastro e menor ou igual a 5 dias depois
+    public function validateUserActive(LoginDB $classLogin, $login, LoginController $controller)
+    {
+        $user = $classLogin->getUser($login);
+        # Confirma se o status está igual a confirmar
+        if($user['data']['status'] == "confirmar") {
+            # Caso esteja ele verifica se o prazo esta dentro do 5 dias a conta da data cadastro
+            if(strtotime($user['data']['data_cadastro']) <=  strtotime(date("Y-m-d H:i:s")) - 432000) {
+                $controller->setErro("Ative seu cadastro pelo link do email");
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true; 
+        }
     }
 }

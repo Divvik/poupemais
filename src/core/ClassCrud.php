@@ -33,14 +33,14 @@ class ClassCrud extends Models
     }
 
     # Update dados usuario
-    public function updateDB($table, $values, $where)
+    public function updateDB($table, $values, $where,$exec)
     {
     $this->prepareExecute("UPDATE {$table} SET {$values} WHERE {$where}", $exec);
         return $this->crud;
     }
 
     # Deleta dados
-    public function deleteDB($table, $values)
+    public function deleteDB($table, $values,$exec)
     {
         $this->prepareExecute("DELETE FROM {$table} WHERE {$values}", $exec);
         return $this->crud;

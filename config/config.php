@@ -32,10 +32,17 @@ define('CHAR_SET', 'charset=utf8');
 // DEBUG TRATAMENTO DE ERRO
 define('DEBUG', true);
 
+// Mail
+define('HOSTMAIL', 'smtp.gmail.com');
+define('USERMAIL', 'email@gmail.com');
+define('PASSMAIL', 'senha');
+
 // Recptcha
 # Outras informações
 define("SITEKEY","6LcTy5cUAAAAACxOvmDYhhqbi9xdBxnN1yC3m9EH");
 define("SECRETKEY","6LcTy5cUAAAAAFKPhsj9v7cMiiyFwrqVUay7ABlj");
+define("DOMAIN", $_SERVER["HTTP_HOST"]);
+
 
 // Carregamento das Functions
 function autoloadFunction($name) {
