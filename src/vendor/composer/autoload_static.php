@@ -15,6 +15,10 @@ class ComposerStaticInitd36f27306414bc0a69c90e62261b1932
         array (
             'Src\\' => 4,
         ),
+        'P' => 
+        array (
+            'PHPMailer\\PHPMailer\\' => 20,
+        ),
         'H' => 
         array (
             'Helpers\\' => 8,
@@ -33,6 +37,10 @@ class ComposerStaticInitd36f27306414bc0a69c90e62261b1932
         'Src\\' => 
         array (
             0 => __DIR__ . '/../..' . '/',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'Helpers\\' => 
         array (

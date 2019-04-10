@@ -1,5 +1,8 @@
 <?php if(!defined('DIRREQ')) exit; ?>
-
+<?php 
+	$session = new \Src\Core\Session();
+	$session->verifyInsideSession();
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -20,8 +23,8 @@
 			<h1>dashboard</h1>
 			<nav>
 				<ul>
-					<li><?=$_SESSION['login'];?></li>
-					<li><a href="<?= DIRPAGE . '/login/logout'?>">logout</a></li>
+					<li><?=$_SESSION['name'];?></li>
+					<li><a href="<?= DIRPAGE . '/dashboard/logout'?>">logout</a></li>
 				</ul>
 			</nav>
 		</div>

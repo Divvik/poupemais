@@ -2,7 +2,7 @@
 
 <?php require_once VIEWS . 'includes/header.php' ?>
 	<div class="container">
-		<form id="form-cad-cliente" action="<?= DIRPAGE . '/validar'?>" method="post">
+		<form id="form-cad-cliente" action="<?= DIRPAGE . '/cadastro/validado'?>" method="post">
 			<ul id="progressbar">
 				<li class="active">Dados Pessoais</li>
 				<li>Endereço</li>
@@ -11,10 +11,10 @@
 			</ul>
 			<fieldset>
 				<h2 class="fs-title">Dados Pessoais</h2>
-				<input type="text" name="c_nome" id="cad-cli-nome" placeholder="nome" required/>
-				<input type="text" name="c_cpf" id="cpf" placeholder="CPF" required/>
+				<input type="text" name="c_nome" id="cad-cli-nome" placeholder="nome" />
+				<input type="text" name="c_cpf" id="cpf" placeholder="CPF" />
 				<p class="cpf alert"></p>
-				<input type="text" name="c_rg" id="rg" placeholder="RG" required/>
+				<input type="text" name="c_rg" id="rg" placeholder="RG" />
 				<select name="c_estado_civil" id="estado-civil" required>
 					<option value="" selected disabled hidden>Estado Civil</option>
 					<option value="Solteiro">Solteiro</option>
@@ -22,15 +22,15 @@
 					<option value="Viúvo">Viúvo</option>
 					<option value="Divorciado">Divorciado</option>
 				</select>
-				<input type="text" name="c_telefone" id="telefone" placeholder="Telefone" required/>
+				<input type="text" name="c_telefone" id="telefone" placeholder="Telefone" />
 				<button type="button" class="action-btn next">proximo</button>
 			</fieldset>				
 			<fieldset>
 				<h2 class="fs-title">Endereço</h2>
-				<input type="text" name="c_endereco" id="endereco" placeholder="Rua, Av, Trav." required/>
-				<input type="text" name="c_bairro" id="bairro" placeholder="Bairro" required/>
-				<input type="text" name="c_cep" id="cep" placeholder="CEP" required/>
-				<input type="text" name="c_cidade" id="cidade" placeholder="Cidade" required/>
+				<input type="text" name="c_endereco" id="endereco" placeholder="Rua, Av, Trav." />
+				<input type="text" name="c_bairro" id="bairro" placeholder="Bairro" />
+				<input type="text" name="c_cep" id="cep" placeholder="CEP" />
+				<input type="text" name="c_cidade" id="cidade" placeholder="Cidade" />
 				<select name="c_estado" id="estado" required>
 					<option value="" selected disabled hidden>Estado</option>
 					<option value="SP">SP</option>
@@ -43,19 +43,19 @@
 			</fieldset>
 			<fieldset>
 				<h2 class="fs-title">Login e Senha</h2>
-				<input type="email" name="c_email" id="cad-cliente-email" placeholder="email" required/>
+				<input type="email" name="c_email" id="cad-cliente-email" placeholder="email" />
 				<p class="email alert"></p>
-				<input type="text" name="c_login" id="cad-cliente-login" placeholder="Login" required/>
-				<input type="password" name="c_senha" id="cad-cliente-senha" placeholder="Password" required/>
+				<input type="text" name="c_login" id="cad-cliente-login" placeholder="Login" />
+				<input type="password" name="c_senha" id="cad-cliente-senha" placeholder="Password" />
 				<p class="senha-strong alert"></p>
-				<input type="password" name="c_conf-senha" id="conf-senha" placeholder="Conf-Password" required/>
+				<input type="password" name="c_conf-senha" id="conf-senha" placeholder="Conf-Password" />
 				<p class="conf-senha alert"></p>
 				<button type="button" class="action-btn previous-btn previous">anterior</button>
 				<button type="button" class="action-btn next">proximo</button>
 			</fieldset>
 			<fieldset>
 				<h2 class="fs-title">Planos</h2>
-				<select name="name-plano" id="nome-plano" required>
+				<select name="name_plano" id="nome-plano" required>
 					<option value="" selected disabled hidden>Escolha Plano</option>
 					<?php foreach ($data['planos'] as $nomePlano):?>
 						<option value="<?= $nomePlano['id'] ?>"><?= $nomePlano['nome']?></option>
@@ -65,9 +65,8 @@
 				<p class="email alert"></p>
 				<p class="senha-strong alert"></p>
 				<p class="conf-senha alert"></p>
-				<p class="conf-senha alert"></p>
-				<p class="senha-strong alert"></p>
 				<p class="dados-em-brancos alert"></p>
+				<p class="captcha alert"></p>
 				<p class="alert alert-success"></p>
 				<input type="hidden" name="c_g-recaptcha-response" id="g-recaptcha-response">
 				<button type="button" class="action-btn previous-btn previous">anterior</button>

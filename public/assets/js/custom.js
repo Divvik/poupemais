@@ -1,5 +1,5 @@
 var pageAtual = window.location;
-var pageCad = 'http://localhost/poupemais/login/cadastrar';
+var pageCad = 'http://localhost/poupemais/cadastro';
 
 if(pageAtual == pageCad) {
     // https://github.com/vanilla-masker/vanilla-masker
@@ -23,36 +23,38 @@ getCaptcha();
 
 // Ajax do formulário de cadastro
 var formCad = document.querySelector("#form-cad-cliente");
-$("#form-cad-cliente").on("submit", function(event){
-    event.preventDefault();
-    var dados = $(this).serialize();
+// $("#form-cad-cliente").on("submit", function(event){
+//     event.preventDefault();
+//     var dados = $(this).serialize();
 
-    $.ajax({
-        url:formCad.action,
-        type: 'POST',
-        data: dados,
-        dataType: 'json',
-        success: function(response){
-            $('.cpf').empty();
-            $('.email').empty();
-            $('.senha-strong').empty();
-            $('.conf-senha').empty();
-            $('.dados-em-brancos').empty();
-            $('.retornoCad').empty();
-            if(response.retorno == 'erro') {
-                getCaptcha();
-                $('.cpf').append(response.cpf).addClass('warning');
-                $('.email').append(response.email).addClass('warning');
-                $('.senha-strong').append(response.senhaStrong).addClass('warning');
-                $('.conf-senha').append(response.senhaConf).addClass('warning');
-                $('.dados-em-brancos').append(response.erros).addClass('warning');
-            } else {
-                $('.alert-success').append('Cadastro efetuado com sucesso!').addClass('success');
-                window.location = 'http://localhost/poupemais/login';
-            }
-        }
-    });
-});
+//     $.ajax({
+//         url:formCad.action,
+//         type: 'POST',
+//         data: dados,
+//         dataType: 'json',
+//         success: function(response){
+//             $('.cpf').empty();
+//             $('.email').empty();
+//             $('.senha-strong').empty();
+//             $('.conf-senha').empty();
+//             $('.dados-em-brancos').empty();
+//             $('.retornoCad').empty();
+//             if(response.retorno == 'erro') {
+//                 getCaptcha();
+//                 console.log(response);
+//                 $('.cpf').append(response.cpf).addClass('warning');
+//                 $('.email').append(response.email).addClass('warning');
+//                 $('.senha-strong').append(response.senhaStrong).addClass('warning');
+//                 $('.conf-senha').append(response.senhaConf).addClass('warning');
+//                 $('.dados-em-brancos').append(response.erros).addClass('warning');
+//                 $('.captcha').append(response.captcha).addClass('warning');
+//             } else {
+//                 $('.alert-success').append('Cadastro efetuado com sucesso!').addClass('success');
+//                 window.location = 'http://localhost/poupemais/login';
+//             }
+//         }
+//     });
+// });
 
 var formLogin = document.querySelector("#form-login");
 
@@ -63,18 +65,40 @@ $("#form-login").on("submit", function(event){
     $.ajax({
         url: formLogin.action,
         type: 'POST',
-        dataType: 'text',
+        dataType: 'json',
         data: dados,
         beforeSend : function(){
-            $(".erro").html("<i class='fas fa-spinner fa-spin'></i>");
-        },success: function(msg){
-            console.log(msg)
-            if(msg != ''){
-                $(".erro").append(msg).addClass("warning");
+            $(".erro").html("<i class='fas fa-spinner fa-spin'> </i>");
+        },success: function(response){
+            if(response.retorno == 'erro'){
+                getCaptcha();
+                if(response.tentativas == true) {
+                    $('#form-login').hide();
+                }
+                $(".erro").empty();
+                $.each(response.erros, function(key, value){
+                    $(".erro").append(value+'<br>').addClass("warning-login");
+                });                
             } else {
-                window.location = 'http://localhost/poupemais/dashboard';
+                $(".retorno").empty();
+                $(".retorno").append(response.success).addClass("success");
+                setTimeout(function(){
+                    window.location = 'http://localhost/poupemais/dashboard';
+                }, 2000);
             }
         }
     });
+});
 
+// CapsLock
+$("#password").keypress(function(e) {
+    // teclas selecionadas
+    kc = e.keyCode ? e.keyCode : e.which;
+    // shift pressionado
+    sk = e.shiftKey ? e.shiftKey : ((kc == 16) ? true:false );
+    if((kc >= 65 && kc <= 90 && !sk) || (kc >= 97 && kc <= 122) && sk){
+        $('.caps-lock').html('Caps Lock Ligado').addClass("warning");
+    } else {
+        $('.caps-lock').empty().removeClass("warning");
+    }   
 });
