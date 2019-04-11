@@ -12,7 +12,8 @@ use Src\Core\Mail;
 class ValidarController
 {   
     private $erro = [];
-    private $cadastro;
+    private $cadastroDB;
+    private $mail;
 
     # Erros
     private $dadosNull = NULL;
@@ -22,6 +23,12 @@ class ValidarController
     private $erroStrongSenha = NULL;
     private $erroConfSenha = NULL;
     
+    public function __construct()
+    {
+        # Instancia da Class CadastrarDB
+        $this->cadastroDB = new CadastrarDB;
+        $this->mail = new Mail();
+    }
     
     # Obtem um erro
     public function getErro()
@@ -48,7 +55,7 @@ class ValidarController
         if($i == 0) {
             return true;
         } else {
-            $this->dadosNull = 'Preencha todos os dados!';
+            $this->setErro('Preencha todos os dados!');
             return false;
         }
     }
@@ -62,7 +69,7 @@ class ValidarController
             
             if(!$email) {
                 $this->email = NULL;
-                $this->erroEmail = "Email inválido!";
+                $this->setErro("Email inválido!");
                 return false;
             } else {
                 return $email;
@@ -73,19 +80,17 @@ class ValidarController
     #Valida se email existe no banco de dados
     public function validaIssetEmail($email)
     {   
-        # Instancia da Class CadastrarDB
-        $this->cadastro = new CadastrarDB;
-        $b = $this->cadastro->getEmail($email);
+        $b = $this->cadastroDB->getEmail($email);
         
         if($email != NULL) {
             if($b > 0) {
-                $this->erroEmail = "Email já cadastrado!";
+                $this->setErro("Email já cadastrado!");
                 return false;
             } else {
                 return true;
             }
         } else {
-            $this->erroEmail = 'Informe o seu email!';
+            $this->setErro('Informe o seu email!');
         }
         
     }
@@ -101,12 +106,12 @@ class ValidarController
             
             // Verifica se foi informado todos os digitos corretamente
             if (strlen($cpf) != 11) {
-                $this->erroCPF = "Digite 11 números do CPF!";
+                $this->setErro("Digite 11 números do CPF!");
                 return false;
             }
             // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
             if (preg_match('/(\d)\1{10}/', $cpf)) {
-                $this->erroCPF = "CPF não aceita números sequências!";
+                $this->setErro("CPF não aceita números sequências!");
                 return false;
             }
             // Faz o calculo para validar o CPF
@@ -116,7 +121,7 @@ class ValidarController
                 }
                 $d = ((10 * $d) % 11) % 10;
                 if ($cpf{$c} != $d) {
-                    $this->erroCPF = "CPF Inválido!";
+                    $this->setErro("CPF Inválido!");
                     return false;
                 }
             }
@@ -132,7 +137,7 @@ class ValidarController
         if($senha === $confSenha){
             return true;
         } else {
-            $this->erroConfSenha = "A Confirmação de senha está diferente da senha";
+            $this->setErro("A Confirmação de senha está diferente da senha");
             return false;
         }
     }
@@ -147,10 +152,10 @@ class ValidarController
             if($strength['score'] >= 3) {
                 return true;
             } else {
-                $this->erroStrongSenha = "Digite uma senha mais forte!";
+                $this->setErro("Digite uma senha mais forte!");
             }
         } else {
-            $this->erroStrongSenha = "Informe sua senha!";
+            $this->setErro("Informe sua senha!");
         }
         # Score retorna um valor de 0 a 4, sendo 0 fraca e 4 muito forte
     }
@@ -168,48 +173,43 @@ class ValidarController
         }
     }
 
-    public function validateFinalCad()
+    public function validateFinalCad($arraVar)
     {
         $arrResponse = array();
         if(count($this->getErro()) > 0) {
             $arrResponse["retorno"] = "erro";
-            $arrResponse["captcha"] = $this->getErro();
+            $arrResponse["erros"] = $this->getErro();
+        } else {
+           $arrResponse = [
+                "retorno" => "success",
+                "email" => $this->mail->sendMail(
+                $arraVar['email'],
+                $arraVar['login'], 
+                $arraVar['token'],
+                'Confirmação de Cadastro', 
+                "Confirme seu email <a href='". DIRPAGE ."'controllers/ConfirmacaoController/{$arraVar['email']}/{$arraVar['token']}>clicando aqui<a/>")
+            ];
+            // $arrResponse = [
+            //     "retorno" => "success",
+            //     "erros" => null 
+            // ];              
+            // # Insere o usuario
+            // $this->cadastroDB->insertUser($arraVar);
+            // # Insere o cliente
+            // $this->cadastroDB->insertCliente($arraVar);
+            // # Insere o investimento
+            // $this->cadastroDB->insertInvest($arraVar);
+            // # Insere a confirmação de email
+            // $this->cadastroDB->insertConfirmation($arraVar);
+            // # Seleciona as parcelas do vencimentos
+            // $vencimentos;
+            // if($arraVar['plano'] <= 4) {
+            //     $vencimentos = $this->calcularParcelas(6);
+            // } else {
+            //     $vencimentos = $this->calcularParcelas(12);
+            // }
+            // $this->cadastroDB->insertVencimentos($vencimentos,$arraVar);
         }
-
-        if($this->dadosNull != NULL) {
-            $arrResponse["retorno"] = "erro";
-            $arrResponse["erros"] = $this->dadosNull;
-        }
-
-        if($this->erroCPF != NULL){
-            $arrResponse["retorno"] = "erro";
-            $arrResponse["cpf"] = $this->erroCPF;   
-        }
-
-        if($this->erroCPF != NULL)
-        {
-            $arrResponse["retorno"] = "erro";
-            $arrResponse["cpf"] = $this->erroCPF;   
-        }
-
-        if ($this->erroEmail != NULL){
-            $arrResponse["retorno"] = "erro";
-            $arrResponse["email"] = $this->erroEmail;
-        } 
-
-        if($this->erroStrongSenha != NULL) {
-            $arrResponse["retorno"] = "erro";
-            $arrResponse["senhaStrong"] = $this->erroStrongSenha;
-        } 
-        if($this->erroConfSenha != NULL){
-            $arrResponse["retorno"] = "erro";
-            $arrResponse["senhaConf"] = $this->erroConfSenha;
-        }      
-        
-        if(count($arrResponse) == 0){
-            $arrResponse["retorno"] = "success";
-        }
-        
         return json_encode($arrResponse);
     }
 
@@ -230,5 +230,27 @@ class ValidarController
         } else {
             return true; 
         }
+    }
+
+    # Calcula as datas da parcelas
+    private function calcularParcelas($nParcelas, $dataPrimeiraParcela = null)
+    {   
+        $dataVencimento = [];
+        if($dataPrimeiraParcela != null){
+            $dataPrimeiraParcela = explode( "/",$dataPrimeiraParcela);
+            $dia = $dataPrimeiraParcela[0];
+            $mes = $dataPrimeiraParcela[1];
+            $ano = $dataPrimeiraParcela[2];
+        } else {
+            $dia = date("d");
+            $mes = date("m");
+            $ano = date("Y");
+        }
+
+        for($x = 0; $x < $nParcelas; $x++){
+            $dado = date("Y/m/d",strtotime("+".$x." month",mktime(0, 0, 0,$mes,$dia,$ano)));
+            array_push($dataVencimento, $dado); 
+        }
+        return $dataVencimento;
     }
 }
