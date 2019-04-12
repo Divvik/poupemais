@@ -227,17 +227,17 @@ class ValidarController
     public function validateUserActive(LoginDB $classLogin, $login, LoginController $controller)
     {
         $user = $classLogin->getUser($login);
+       
         # Confirma se o status está igual a confirmar
         if($user['data']['status'] == "confirmar") {
             # Caso esteja ele verifica se o prazo esta dentro do 5 dias a conta da data cadastro
             if(strtotime($user['data']['data_cadastro']) <=  strtotime(date("Y-m-d H:i:s")) - 432000) {
+                # Caso não retorna um erro
                 $controller->setErro("Ative seu cadastro pelo link do email");
                 return false;
-            } else {
-                return true;
             }
         } else {
-            return true; 
+            return true;
         }
     }
 

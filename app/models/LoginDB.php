@@ -25,7 +25,7 @@ class LoginDB extends ClassCrud
 
     # Retorna os dados do usuário
     public function getUser($login)
-    { 
+    {   
         $query = $this->selectDB("*","usuarios","WHERE login = ?", array($login));
         $rows = $query->rowCount();
         
