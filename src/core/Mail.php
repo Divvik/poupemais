@@ -20,6 +20,7 @@ class Mail
     public function sendMail($email, $login, $token = NULL, $assunto, $corpoMail)
     {
         $msg = array();
+
         $this->mail->isSMTP();
         //Enable SMTP debugging
         // 0 = off (for production use)
@@ -47,6 +48,7 @@ class Mail
         // $this->mail->addReplyTo($email, $login);
         //Set who the message is to be sent to
         $this->mail->addAddress($email, $login);
+        $this->mail->CharSet = 'utf-8';
         //Set the subject line
         $this->mail->Subject = $assunto;
         //Read an HTML message body from an external file, convert referenced images to embedded,
@@ -61,13 +63,16 @@ class Mail
         if (!$this->mail->send()) {
             $msg = [
                 "retorno" => 'erro',
-                "erros" => "Mailer Error: " . $this->mail->ErrorInfo
+                "erros" => [ 
+                    "Falha ao enviar o Email entre em contato com o administrador.",
+                    "Mailer Error: " . $this->mail->ErrorInfo
+                ]
             ];
             return $msg;
         } else {
             $msg = [
                 "retorno" => "success",
-                "msg" => "Message sent!"
+                "msg" => "Verifique seu email para confirmação de cadastro!"
             ];
             return $msg;
         }

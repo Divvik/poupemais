@@ -174,43 +174,52 @@ class ValidarController
     }
 
     public function validateFinalCad($arraVar)
-    {
+    {   
+        $assunto = "<h1>Poupemais</h1>";
+        $assunto .= "<h2>Confirmação de Cadastro</h2>";
+        $assunto .= "Sr(a) <strong>" . $arraVar["nome"] . "</strong>,";
+        $assunto .= "<p>A equipe Poupemais agradece por acreditar em nosso trabalho!</p>";
+        $assunto .= "<p>Favor antes de efetuar o seu primeiro login, precisamos que Sr(a) confime seu cadastro.</p><br>";
+        $assunto .= "<p>Abaixo segue o link para a confirmação!</p>";
+        $assunto .= "Confirme seu email <a href=". DIRPAGE ."controllers/ConfirmacaoController/{$arraVar['email']}/{$arraVar['token']}>clicando aqui<a/>";
+        $assunto .= "<br><br><br>";
+        $assunto .= "Att,<br> Poupemais<br>Tel. 11-2222-2222<br>E-mail: contato@poupemais.com";
+        
         $arrResponse = array();
         if(count($this->getErro()) > 0) {
-            $arrResponse["retorno"] = "erro";
+            $arrResponse["retornoCad"] = "erro";
             $arrResponse["erros"] = $this->getErro();
         } else {
-           $arrResponse = [
-                "retorno" => "success",
+            $arrResponse = [
                 "email" => $this->mail->sendMail(
                 $arraVar['email'],
                 $arraVar['login'], 
                 $arraVar['token'],
                 'Confirmação de Cadastro', 
-                "Confirme seu email <a href='". DIRPAGE ."'controllers/ConfirmacaoController/{$arraVar['email']}/{$arraVar['token']}>clicando aqui<a/>")
+                $assunto),
+                    "retornoCad" => [
+                        "retorno" => "success",
+                        "erros" => $arraVar['token']
+                    ]
             ];
-            // $arrResponse = [
-            //     "retorno" => "success",
-            //     "erros" => null 
-            // ];              
-            // # Insere o usuario
-            // $this->cadastroDB->insertUser($arraVar);
-            // # Insere o cliente
-            // $this->cadastroDB->insertCliente($arraVar);
-            // # Insere o investimento
-            // $this->cadastroDB->insertInvest($arraVar);
-            // # Insere a confirmação de email
-            // $this->cadastroDB->insertConfirmation($arraVar);
-            // # Seleciona as parcelas do vencimentos
-            // $vencimentos;
-            // if($arraVar['plano'] <= 4) {
-            //     $vencimentos = $this->calcularParcelas(6);
-            // } else {
-            //     $vencimentos = $this->calcularParcelas(12);
-            // }
-            // $this->cadastroDB->insertVencimentos($vencimentos,$arraVar);
+            # Insere o usuario
+            $this->cadastroDB->insertUser($arraVar);
+            # Insere o cliente
+            $this->cadastroDB->insertCliente($arraVar);
+            # Insere o investimento
+            $this->cadastroDB->insertInvest($arraVar);
+            # Insere a confirmação de email
+            $this->cadastroDB->insertConfirmation($arraVar);
+            # Seleciona as parcelas do vencimentos
+            $vencimentos;
+            if($arraVar['plano'] <= 4) {
+                $vencimentos = $this->calcularParcelas(6);
+            } else {
+                $vencimentos = $this->calcularParcelas(12);
+            }
+            $this->cadastroDB->insertVencimentos($vencimentos,$arraVar);
         }
-        return json_encode($arrResponse);
+        return json_encode($arrResponse);        
     }
 
     # Método de validação de confirmação de email

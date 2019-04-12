@@ -32,21 +32,34 @@ $("#form-cad-cliente").on("submit", function(event){
         type: 'POST',
         data: dados,
         dataType: 'json',
-        success: function(response){
-            console.log(response);
+        beforeSend : function(){
+            $(".erro").html("<i class='fas fa-spinner fa-spin loading'> </i>");
+        },success: function(response){
             $('.erro').empty().removeClass('warning');
-            if(response.retorno == 'erro') {
-                console.log(response);
-                // getCaptcha();
+            // Tratametno Erro Cadastro
+            if(response.retornoCad == 'erro') {
                 $.each(response.erros, function(key, value){
                     $(".erro").append(value+'<br>').addClass("warning");
-                });                
+                });
             } else {
-                console.log(response);
-                // $('.alert-success').append('Cadastro efetuado com sucesso!').addClass('success');
-                // setTimeout(function(){
-                    // window.location = 'http://localhost/poupemais/login';
-                // }, 2000);
+                $('.alert-success').empty();
+                $('.alert-success').append('Cadastro efetuado com sucesso!').addClass('success'); 
+                // Caso não tenha erro Cadastro
+                // Trata erro Envio email
+                if(response.email.retorno == 'erro') {
+                    // getCaptcha();
+                    $('.email').empty();
+                    $.each(response.email.erros, function(key, value){
+                        $(".erro").append(value+'<br><br>').addClass("warning");
+                    });
+                // Caso não tenha nenhum                
+                } else {  
+                    $('.email').empty();
+                    $('.email').append(response.email.msg).addClass('success');
+                    setTimeout(function(){
+                        window.location = 'http://localhost/poupemais/login';
+                    }, 5000);
+                }    
             }
         }
     });
