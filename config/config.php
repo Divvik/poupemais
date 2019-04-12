@@ -34,8 +34,8 @@ define('DEBUG', true);
 
 // Mail
 define('HOSTMAIL', 'smtp.gmail.com');
-define('USERMAIL', 'email@gmail.com');
-define('PASSMAIL', 'senha');
+define('USERMAIL', 'fernandoestevam23@gmail.com');
+define('PASSMAIL', 'odnanref709244');
 
 // Recptcha
 # Outras informações

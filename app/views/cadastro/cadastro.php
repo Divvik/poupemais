@@ -13,7 +13,6 @@
 				<h2 class="fs-title">Dados Pessoais</h2>
 				<input type="text" name="c_nome" id="cad-cli-nome" placeholder="nome" />
 				<input type="text" name="c_cpf" id="cpf" placeholder="CPF" />
-				<p class="cpf alert"></p>
 				<input type="text" name="c_rg" id="rg" placeholder="RG" />
 				<select name="c_estado_civil" id="estado-civil" required>
 					<option value="" selected disabled hidden>Estado Civil</option>
@@ -44,12 +43,9 @@
 			<fieldset>
 				<h2 class="fs-title">Login e Senha</h2>
 				<input type="email" name="c_email" id="cad-cliente-email" placeholder="email" />
-				<p class="email alert"></p>
 				<input type="text" name="c_login" id="cad-cliente-login" placeholder="Login" />
 				<input type="password" name="c_senha" id="cad-cliente-senha" placeholder="Password" />
-				<p class="senha-strong alert"></p>
 				<input type="password" name="c_conf-senha" id="conf-senha" placeholder="Conf-Password" />
-				<p class="conf-senha alert"></p>
 				<button type="button" class="action-btn previous-btn previous">anterior</button>
 				<button type="button" class="action-btn next">proximo</button>
 			</fieldset>
@@ -61,14 +57,9 @@
 						<option value="<?= $nomePlano['id'] ?>"><?= $nomePlano['nome']?></option>
 					<?php endforeach ; ?>
 				</select>
-				<p class="cpf alert"></p>
-				<p class="email alert"></p>
-				<p class="senha-strong alert"></p>
-				<p class="conf-senha alert"></p>
-				<p class="dados-em-brancos alert"></p>
-				<p class="captcha alert"></p>
+				<!-- <input type="hidden" name="c_g-recaptcha-response" id="g-recaptcha-response"> -->
+				<p class="erro alert"></p>
 				<p class="alert alert-success"></p>
-				<input type="hidden" name="c_g-recaptcha-response" id="g-recaptcha-response">
 				<button type="button" class="action-btn previous-btn previous">anterior</button>
 				<button type="submit" class="action-btn enviar-btn">cadastar</button>
 			</fieldset>

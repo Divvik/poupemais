@@ -17,7 +17,6 @@ class CadastroController extends Controllers
     # variaveis classes
     private $valida;
     private $cadastroDB;
-    private $mail;
 
     # Variaveis formulario
     private $nome;
@@ -97,7 +96,6 @@ class CadastroController extends Controllers
     # Valida formulario
     public function validado()
     {       
-        $this->mail = new Mail();
         # Validações 
         $this->validarFields();
         $this->valida = new ValidarController;
@@ -107,7 +105,7 @@ class CadastroController extends Controllers
         $this->valida->validaIssetEmail($this->email);
         $this->valida->validateStrongSenha($this->senha);
         $this->valida->validaConfSenha($this->senha, $this->confSenha);
-        $this->valida->validateCaptcha($this->gRecaptchaResponse);
+        // $this->valida->validateCaptcha($this->gRecaptchaResponse);
         
         # Array com as informações do cadastro
         $arraVar = [
@@ -131,56 +129,6 @@ class CadastroController extends Controllers
         ];
 
         # Validação final do formulario junto com json
-        $response = json_decode($this->valida->validateFinalCad());
-        echo $this->valida->validateFinalCad();
-        if($response->retorno == 'erro') {
-            echo $this->valida->validateFinalCad();
-        } else {            
-            $this->cadastroDB = new CadastrarDB;
-            # Insere o usuario
-            $this->cadastroDB->insertUser($arraVar);
-            # Insere o cliente
-            $this->cadastroDB->insertCliente($arraVar);
-            # Insere o investimento
-            $this->cadastroDB->insertInvest($arraVar);
-            # Insere a confirmação de email
-            $this->cadastroDB->insertConfirmation($arraVar);
-            # Seleciona as parcelas do vencimentos
-            $vencimentos;
-            if($arraVar['plano'] <= 4) {
-                $vencimentos = $this->calcularParcelas(6);
-            } else {
-                $vencimentos = $this->calcularParcelas(12);
-            }
-            $this->cadastroDB->insertVencimentos($vencimentos,$arraVar);
-            
-            $this->mail->sendMail(
-                $arraVar['email'],$arraVar['login'], 
-                $arraVar['token'],'Confirmação de Cadastro', 
-                "Confirme seu email <a href='". DIRPAGE ."'controllers/ConfirmacaoController/{$arraVar['email']}/{$arraVar['token']}>clicando aqui<a/>");
-        }
-        
-    }
-    
-    # Calcula as datas da parcelas
-    public function calcularParcelas($nParcelas, $dataPrimeiraParcela = null)
-    {   
-        $dataVencimento = [];
-        if($dataPrimeiraParcela != null){
-            $dataPrimeiraParcela = explode( "/",$dataPrimeiraParcela);
-            $dia = $dataPrimeiraParcela[0];
-            $mes = $dataPrimeiraParcela[1];
-            $ano = $dataPrimeiraParcela[2];
-        } else {
-            $dia = date("d");
-            $mes = date("m");
-            $ano = date("Y");
-        }
-
-        for($x = 0; $x < $nParcelas; $x++){
-            $dado = date("Y/m/d",strtotime("+".$x." month",mktime(0, 0, 0,$mes,$dia,$ano)));
-            array_push($dataVencimento, $dado); 
-        }
-        return $dataVencimento;
+        echo $this->valida->validateFinalCad($arraVar);        
     }
 }

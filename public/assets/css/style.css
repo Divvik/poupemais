@@ -259,6 +259,7 @@ select:invalid{
     padding: .25em;
 }
 .success{
+    font-size: 1em;
     color: #fff;
     background-color: #388a18; 
 }
