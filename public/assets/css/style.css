@@ -241,10 +241,14 @@ select:invalid{
 }
 
 /* Estilizando os alerta ajax */
+.loading {
+    font-size: 1.5em;
+    color: #009EBC;
+}
 .alert{
     width: 300px;
     height: 100%;
-    font-size: 0.25em; 
+    font-size: 0.7em; 
     text-align: center;
     margin: 1em auto;
     padding: .5em;
@@ -259,15 +263,13 @@ select:invalid{
     padding: .25em;
 }
 .success{
-    font-size: 1em;
-    color: #fff;
-    background-color: #388a18; 
+    color: #388a18;
+    /* background-color: #388a18;  */
 }
-.warning{color: #c94d37; font-size: 0.8em;}
+.warning{color: #c94d37;}
 .warning-login{
     color: #fff;
-    background-color: #c94d37;
-    
+    background-color: #c94d37;   
 }
 /* Footer */
 footer{width: 100%; text-align: center; font-size: .7em; line-height: 1.05em; margin-bottom: 2%; color: #000;}

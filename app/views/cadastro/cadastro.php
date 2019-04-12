@@ -59,6 +59,7 @@
 				</select>
 				<!-- <input type="hidden" name="c_g-recaptcha-response" id="g-recaptcha-response"> -->
 				<p class="erro alert"></p>
+				<p class="alert email"></p>
 				<p class="alert alert-success"></p>
 				<button type="button" class="action-btn previous-btn previous">anterior</button>
 				<button type="submit" class="action-btn enviar-btn">cadastar</button>
