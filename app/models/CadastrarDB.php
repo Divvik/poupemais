@@ -166,7 +166,7 @@ class CadastrarDB extends ClassCrud
     # Verifica se o email esta cadastrado
     public function getEmail($email)
     {   
-        $query = $this->selectDB("*", "usuarios", "WHERE email = '{$email}'", array());
+        $query = $this->selectDB("*", "usuarios", "WHERE email = ?", array($email));
         $result = $query->rowCount();
         return $result;
     }

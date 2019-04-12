@@ -69,7 +69,7 @@ class LoginController extends Controllers
                     $this->setErro("Usuario e ou senha invalidos!");   
                 }
             } else {
-                $this->validateCaptcha($this->gRecaptchaResponse);
+                // $this->validateCaptcha($this->gRecaptchaResponse);
                 $this->setErro('Usuario não existe!');  
             }
         }
