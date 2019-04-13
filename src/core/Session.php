@@ -74,6 +74,7 @@ class Session
         $_SESSION['time'] = time();
         $_SESSION['name'] = $this->login->getUser($login)['data']['login'];
         $_SESSION['email'] = $this->login->getUser($login)['data']['email'];
+        return $_SESSION;
     }
 
     # Validar as páginas internas do sistema
@@ -87,11 +88,12 @@ class Session
                 $_SESSION['time'] = time();
             } else {
                 $this->destructSession();
+                echo "<scritp>alert('Sua sessão expirou. Faça login novamente!</script>";
             }
         }
     }
 
-    # Destroi a session existente
+    # Destruir a session existente
     public function destructSession()
     {
         foreach (array_keys($_SESSION) as $key) {

@@ -12,10 +12,12 @@ use App\Models\LoginDB;
 class DashboardController extends Controllers
 {   
     private $session;
+    private $dados;
 
     public function __construct()
     {   
         parent::__construct();
+        $this->dados = new LoginDB();
         $this->session = new Session();
         $this->view->setTitle('Poupemais');
         $this->view->setDescription('Conheça mais sobre a poupemais e não perca mais tempo no seu investimento.');
@@ -31,8 +33,7 @@ class DashboardController extends Controllers
                 </script>";
             exit();
         } else {
-            $dados = new LoginDB;
-            $usuario = $dados->lista($_SESSION['login']);
+            $usuario = $this->dados->lista($_SESSION['name']);
             $this->view->render('dashboard/index',['usuario' => $usuario]);
         }
     }

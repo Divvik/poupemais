@@ -11,7 +11,6 @@
 		<?php if($data['usuario'] > 0) :?>
 			<table id="table-dashboard">
 				<thead>
-					<th>Nome</th>
 					<th>Nº Invest</th>
 					<th>Contratação</th>
 					<th>Parcelas</th>
@@ -25,7 +24,6 @@
 				<tr>
 					<?php foreach ($data as $row) { ?>
 						<?php foreach ($row as $linha => $usuario) { ?>
-					<td><?= $usuario['nome']?></td>
 					<td><?= $usuario['nº_investimento']?></td>
 					<td>
 						<?php

@@ -172,7 +172,8 @@ USE db_poupemais;
 
 /* SHOW TABLE */
 SHOW TABLES;
-/*DESC usuarios;*/
+DESC usuarios;
+DESC CLIENTES;
 
 
 select * FROM confirmation;
@@ -189,6 +190,9 @@ INSERT INTO usuarios (login, senha, email,data_cadastro,status) VALUES ('maria',
 */
 
 SELECT * FROM clientes;
+
+SELECT c.cpf, c.rg, u.login, u.email  FROM clientes AS c JOIN usuarios AS u ON c.id_usuario = c.id WHERE cpf = '961.150.210-88' OR rg = '40.633.700-0' OR email = 'fernando@fernand.com.br' OR login = 'fernando';
+
 /* CLIENTES */
 /*
 
@@ -262,9 +266,10 @@ UPDATE vencimentos AS v JOIN investimentos AS i ON i.id = v.investimentos_id SET
 SELECT c.nome, i.numero_investimento AS nº_investimento, i.data_contratacao AS contratacao, v.parcela, v.vencimento AS dt_vencimento, v.valor,v.data_pagamento, v.situacao, p.nome AS plano, g.nome AS grupo FROM
 		investimentos AS i
         JOIN clientes AS c ON c.id = i.id_cliente
+        JOIN usuarios AS u ON u.id = c.id_usuario
         JOIN planos AS p ON p.id = i.id_plano
         JOIN vencimentos AS v ON v.investimentos_id = i.id 
-        JOIN grupos AS g ON g.id = i.id_grupo WHERE c.id = 1 ORDER BY v.situacao DESC, v.vencimento ASC;
+        JOIN grupos AS g ON g.id = i.id_grupo ORDER BY v.situacao DESC, v.vencimento ASC;
 
 /* SELECT TENTATIVAS */
 SELECT * FROM tentativas;

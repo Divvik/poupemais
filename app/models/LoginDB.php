@@ -40,7 +40,7 @@ class LoginDB extends ClassCrud
         }
     }
 
-    public function lista($id)
+    public function lista($login)
     {   
         $query = $this->selectDB(
             "c.nome, i.numero_investimento AS nº_investimento, 
@@ -51,9 +51,10 @@ class LoginDB extends ClassCrud
                 g.nome AS grupo",
             "investimentos AS i
             JOIN clientes AS c ON c.id = i.id_cliente
+            JOIN usuarios AS u ON u.id = c.id_usuario
             JOIN planos AS p ON p.id = i.id_plano
             JOIN vencimentos AS v ON v.investimentos_id = i.id 
-            JOIN grupos AS g ON g.id = i.id_grupo", "WHERE c.id = ? ORDER BY v.situacao DESC, v.vencimento ASC", array($id));
+            JOIN grupos AS g ON g.id = i.id_grupo", "WHERE u.login = ? ORDER BY v.situacao DESC, v.vencimento ASC", array($login));
         // echo $id;
         $count = $query->rowCount();
         if($count > 0) {

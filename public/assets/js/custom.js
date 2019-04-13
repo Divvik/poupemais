@@ -58,7 +58,7 @@ $("#form-cad-cliente").on("submit", function(event){
                     $('.email').append(response.email.msg).addClass('success');
                     setTimeout(function(){
                         window.location = 'http://localhost/poupemais/login';
-                    }, 5000);
+                    }, 3000);
                 }    
             }
         }
@@ -79,12 +79,12 @@ $("#form-login").on("submit", function(event){
         beforeSend : function(){
             $(".erro").html("<i class='fas fa-spinner fa-spin'> </i>");
         },success: function(response){
+            $(".erro").empty().removeClass("warning-login");
             if(response.retorno == 'erro'){
                 // getCaptcha();
                 if(response.tentativas == true) {
                     $('#form-login').hide();
                 }
-                $(".erro").empty();
                 $.each(response.erros, function(key, value){
                     $(".erro").append(value+'<br>').addClass("warning-login");
                 });                

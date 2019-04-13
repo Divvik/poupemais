@@ -5,6 +5,7 @@ namespace Src\Core;
 
 # Use
 use Src\Core\Models;
+use Exception;
 
 class ClassCrud extends Models
 {
@@ -13,7 +14,7 @@ class ClassCrud extends Models
 
     # Responsável pela preparação da query e execução
     private function prepareExecute($prep, $exec)
-    {
+    {   
         $this->crud = $this->db->prepare($prep);
         $this->crud->execute($exec);
     }
@@ -27,8 +28,7 @@ class ClassCrud extends Models
 
     # Inserção de dados
     public function insertDB($table, $values, $exec)
-    {
-        $this->prepareExecute("INSERT INTO {$table} VALUES ({$values})", $exec);
+    {   $this->prepareExecute("INSERT INTO {$table} VALUES ({$values})", $exec);
         return $this->crud;
     }
 
