@@ -8,6 +8,10 @@
 
 	require_once DIRREQ . '/src/vendor/autoload.php';
 
+	// Modo Depuração
+	use Src\Core\TrataErro;
+	TrataErro::setErroDegub();
+
 	if(!defined('DIRREQ')) exit;
 	# Declarando o use da classes
 	use Src\Core\Routes;

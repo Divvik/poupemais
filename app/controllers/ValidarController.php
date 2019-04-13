@@ -80,19 +80,9 @@ class ValidarController
     #Valida se email existe no banco de dados
     public function validaIssetEmail($email)
     {   
-        $b = $this->cadastroDB->getEmail($email);
-        
-        if($email != NULL) {
-            if($b > 0) {
-                $this->setErro("Email já cadastrado!");
-                return false;
-            } else {
-                return true;
-            }
-        } else {
+        if($email == NULL) {
             $this->setErro('Informe o seu email!');
         }
-        
     }
 
     # Valida CPF
@@ -173,6 +163,39 @@ class ValidarController
         }
     }
 
+    # Valida dados Unique do banco de dados
+    public function validaDadosUniq($arraVar)
+    {   
+        # Retorno do formulario
+        $retorno = [
+            "cpf" => $arraVar['cpf'],
+            "rg" => $arraVar['rg'],
+            "email" => $arraVar['email'],
+            "login" => $arraVar['login']
+        ];
+        
+        # Retorno do banco de dados
+        $consulta = $this->cadastroDB->getDadosUniq($retorno);
+        
+        # Condições
+        if($retorno['cpf'] === $consulta['cpf']) {
+            $this->setErro('CPF já cadastrado em nosso sistema!');
+        }
+        if($retorno['rg'] === $consulta['rg']){
+            $this->setErro('Rg já cadastrado em nosso sistema!');
+        }
+        if($retorno['email'] === $consulta['email']) {
+            $this->setErro('Email já cadastrado em nosso sistema!');
+        }
+        if($retorno['login'] === $consulta['login']) {
+            $this->setErro('Login já cadastrado em nosso sistema!');
+        }
+        if(count($this->getErro()) > 0) {
+            return false;
+        }
+        return true;
+    }
+
     public function validateFinalCad($arraVar)
     {   
         $assunto = "<h1>Poupemais</h1>";
@@ -190,18 +213,6 @@ class ValidarController
             $arrResponse["retornoCad"] = "erro";
             $arrResponse["erros"] = $this->getErro();
         } else {
-            $arrResponse = [
-                "email" => $this->mail->sendMail(
-                $arraVar['email'],
-                $arraVar['login'], 
-                $arraVar['token'],
-                'Confirmação de Cadastro', 
-                $assunto),
-                    "retornoCad" => [
-                        "retorno" => "success",
-                        "erros" => $arraVar['token']
-                    ]
-            ];
             # Insere o usuario
             $this->cadastroDB->insertUser($arraVar);
             # Insere o cliente
@@ -218,6 +229,18 @@ class ValidarController
                 $vencimentos = $this->calcularParcelas(12);
             }
             $this->cadastroDB->insertVencimentos($vencimentos,$arraVar);
+            $arrResponse = [
+                "email" => $this->mail->sendMail(
+                $arraVar['email'],
+                $arraVar['login'], 
+                $arraVar['token'],
+                'Confirmação de Cadastro', 
+                $assunto),
+                    "retornoCad" => [
+                        "retorno" => "success",
+                        "erros" => $arraVar['token']
+                    ]
+            ];
         }
         return json_encode($arrResponse);        
     }
@@ -227,7 +250,7 @@ class ValidarController
     public function validateUserActive(LoginDB $classLogin, $login, LoginController $controller)
     {
         $user = $classLogin->getUser($login);
-       
+    
         # Confirma se o status está igual a confirmar
         if($user['data']['status'] == "confirmar") {
             # Caso esteja ele verifica se o prazo esta dentro do 5 dias a conta da data cadastro

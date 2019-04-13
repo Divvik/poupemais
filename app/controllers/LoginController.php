@@ -110,7 +110,7 @@ class LoginController extends Controllers
             $this->db->insertAttempt(); 
         } else {
             $this->db->deleteAttempt();
-            $this->session->setSession($login);
+            return $this->session->setSession($login);
         }
     }
 

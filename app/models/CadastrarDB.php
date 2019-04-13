@@ -6,6 +6,8 @@ namespace App\Models;
 # use
 use PDO;
 use Src\Core\ClassCrud;
+use Exception;
+use Src\Core\TrataErro;
 
 class CadastrarDB extends ClassCrud
 {
@@ -25,25 +27,36 @@ class CadastrarDB extends ClassCrud
     
     # Select plano
     public function selectPlano()
-    {
-        $plano = $this->selectDB("*","planos","",array());
-        $result = $plano->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+    {   
+        try {
+            $plano = $this->selectDB("*","planos","",array());
+            $result = $plano->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (Exception $e) {
+            TrataErro::setErroExeption($e);
+        }
+        
     }
     
     # 1° Inserção banco de dados
     # Insere um usuario 
     public function insertUser($arrVar)
     {   
-        $this->insertDB("usuarios (login, senha, email,data_cadastro, status)",
-            "?,?,?,?,?",
-            array(
-                $arrVar['login'],
-                $arrVar['hashSenha'],
-                $arrVar['email'], 
-                $arrVar['date_cadastro'], 
-                'confirmar'
-            ));
+        try {
+            $this->insertDB("usuarios (login, senha, email,data_cadastro, status)",
+                "?,?,?,?,?",
+                array(
+                    $arrVar['login'],
+                    $arrVar['hashSenha'],
+                    $arrVar['email'], 
+                    $arrVar['date_cadastro'], 
+                    'confirmar'
+                )
+            );
+        }  catch (Exception $e) {
+            TrataErro::setErroExeption($e);
+        }
+        
     }
     
     # 2º Inserção banco de dados
@@ -51,71 +64,52 @@ class CadastrarDB extends ClassCrud
     public function insertCliente($arrVar)
     {   
         
-        $result = $this->selectDB("*","usuarios", "ORDER BY id DESC limit 1", array());
-        $dado = $result->fetch(PDO::FETCH_ASSOC);
-        $idUsuario = $dado['id'];
-
-        $this->insertDB("clientes (nome,cpf,rg,estado_civil,telefone,endereco,bairro,cep,cidade,estado,id_usuario)", 
+        try {
+            $this->insertDB("clientes (nome,cpf,rg,estado_civil,telefone,endereco,bairro,cep,cidade,estado,id_usuario)", 
             "?,?,?,?,?,?,?,?,?,?,?",
-        array(
-            $arrVar['nome'],
-            $arrVar['cpf'],
-            $arrVar['rg'],
-            $arrVar['estado_civil'],
-            $arrVar['telefone'],
-            $arrVar['endereco'],
-            $arrVar['bairro'],
-            $arrVar['cep'],
-            $arrVar['cidade'],
-            $arrVar['estado'], 
-            $idUsuario)
-        );
+                array(
+                    $arrVar['nome'],
+                    $arrVar['cpf'],
+                    $arrVar['rg'],
+                    $arrVar['estado_civil'],
+                    $arrVar['telefone'],
+                    $arrVar['endereco'],
+                    $arrVar['bairro'],
+                    $arrVar['cep'],
+                    $arrVar['cidade'],
+                    $arrVar['estado'],
+                    $this->selecionaId('usuarios')
+                )
+            );
+        } catch (Exception $e) {
+            TrataErro::setErroExeption($e);
+        }
     }
 
     # 3º Inserção banco de dados
     # Insere investimentos
     public function insertInvest($plano)
     {   
-        
-        # Seleciona o ultimo id do cliente
-        $result = $this->selectDB("*","clientes", "ORDER BY id DESC limit 1", array());
-        $cliente = $result->fetch(PDO::FETCH_ASSOC);
-        $idCliente = $cliente['id'];
-                
-        $query = $this->selectDB("*","grupos","", array());
-        $row = $query->rowCount();
-        
-        $grupos = $this->selectDB("*","grupos", "ORDER BY id DESC limit 1", array());
-        $grupo = $grupos->fetch(PDO::FETCH_ASSOC);
-        $idGrupo = $grupo['id'];
-    
-        # Seleciona o ultimo numero do investimento
-        $result = $this->selectDB("*","investimentos", "ORDER BY id DESC limit 1", array());
-        $investimento = $result->fetch(PDO::FETCH_ASSOC);
-        $numInvest = $investimento['numero_investimento'] + 1;
-
-        
-        $arrayDado = ["data_atual" => $this->getDataAtual()];
-
-        $this->insertDB("investimentos (numero_investimento,data_contratacao,id_cliente,id_plano,id_grupo)", 
-            "?,?,?,?,?", array(
-                $numInvest,
-                $this->getDateCad(),
-                $idCliente,
-                $plano['plano'],
-                $idGrupo
-            ));
+        try {                    
+            $this->insertDB("investimentos (numero_investimento,data_contratacao,id_cliente,id_plano,id_grupo)", 
+                "?,?,?,?,?", 
+                array(
+                    $this->selecionaId('investimentos') + 1,
+                    $this->getDateCad(),
+                    $this->selecionaId('clientes'),
+                    $this->selecionaId('planos'),
+                    $this->selecionaId('grupos')
+                )
+            );
+        } catch (Exception $e) {
+            TrataErro::setErroExeption($e);
+        }
     }
 
     # 4º Inserção banco de dados
     # Insere vencimentos
     public function insertVencimentos($datas,$planos)
     {   
-        # Seleciona o ultimo id da tabela investimentos
-        $result = $this->selectDB("*","investimentos", "ORDER BY id DESC limit 1", array());
-        $dado = $result->fetch(PDO::FETCH_ASSOC);
-        $idInvestimento = $dado['id'];
-        
         # Retorna do formulario o plano
         $plano = $planos['plano'];
         
@@ -136,39 +130,89 @@ class CadastrarDB extends ClassCrud
         
         # Seleciona as parcelas conforme o plano escolhido
         $parcela = 0;
-
-        foreach ($datas as $vencimento) {
-            $parcela++;
-            $this->insertDB("vencimentos (parcela,vencimento,valor,situacao,investimentos_id)",
-                "?,?,?,?,?",
-                array(
-                    $parcela,
-                    $vencimento, 
-                    $valor,
-                    "aberto",
-                    $idInvestimento,
-                )
-            );
+        try {
+            foreach ($datas as $vencimento) {
+                $parcela++;
+                $this->insertDB("vencimentos (parcela,vencimento,valor,situacao,investimentos_id)",
+                    "?,?,?,?,?",
+                    array(
+                        $parcela,
+                        $vencimento, 
+                        $valor,
+                        "aberto",
+                        $this->selecionaId('investimentos'),
+                    )
+                );
+            }
+        } catch (Exception $e) {
+            TrataErro::setErroExeption($e);
         }
     }
     
     # Insere dados na tabela confirmation (serve para confirma cadastro)
     public function insertConfirmation($arrVar)
     {
-    
-        $this->insertDB("confirmation (email,token)","?,?", array(
-            $arrVar['email'], 
-            $arrVar['token']
-            )
-        ); 
+        try {
+            $this->insertDB("confirmation (email,token)",
+                "?,?", 
+                array(
+                    $arrVar['email'], 
+                    $arrVar['token']
+                )
+            ); 
+        } catch (Exception $e) {
+            TrataErro::setErroExeption($e);
+        }
+        
+    }
+
+    # Seleciona o ultimo id do cliente
+    private function selecionaId($table)
+    {
+        try {
+            $query = $this->selectDB("*",$table, "ORDER BY id DESC limit 1", array());
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+            $id = $result['id'];
+            return $id;
+        } catch (Exception $e) {
+            TrataErro::setErroExeption($e);
+        }
+        
     }
 
     # Verifica se o email esta cadastrado
     public function getEmail($email)
     {   
-        $query = $this->selectDB("*", "usuarios", "WHERE email = ?", array($email));
-        $result = $query->rowCount();
-        return $result;
+        try {
+            $query = $this->selectDB("email", "usuarios", "WHERE email = ?", array($email));
+            $result = $query->rowCount();
+            return $result;
+        }  catch (Exception $e) {
+            TrataErro::setErroExeption($e);
+        }
+    }
+
+    # Verifica se o CPF já esta cadastrado
+    public function getDadosUniq($retorno)
+    {
+        try {
+            $query = $this->selectDB(
+                "c.cpf, c.rg, u.login, u.email",
+                "clientes AS c JOIN usuarios AS u ON c.id_usuario = c.id",
+                "WHERE cpf = ? OR rg = ? OR email = ? OR login = ?", 
+                array(
+                    $retorno['cpf'],
+                    $retorno['rg'],
+                    $retorno['email'],
+                    $retorno['login'],
+                    )
+                );
+                $row = $query->rowCount();
+                $consulta = $query->fetch(PDO::FETCH_ASSOC);
+                return $consulta;
+        } catch (Exception $e) {
+            TrataErro::setErroExeption($e);
+        }
     }
     
 }

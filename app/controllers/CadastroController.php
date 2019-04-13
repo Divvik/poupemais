@@ -127,6 +127,9 @@ class CadastroController extends Controllers
             "status"        =>$this->status,
             "token"         =>$this->token,
         ];
+        # Valida dados Uniques
+        $this->valida->validaDadosUniq($arraVar);
+        
 
         # Validação final do formulario junto com json
         echo $this->valida->validateFinalCad($arraVar);        
