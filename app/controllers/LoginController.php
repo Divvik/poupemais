@@ -131,6 +131,25 @@ class LoginController extends Controllers
             ];
         return json_encode($arrReponse);
     }
-
-    
+    public function confirmation($email, $token)
+    {
+        $result = $this->valida->validateConfirmation($this, $email,$token);
+        if($result == false) {
+         echo 
+            "
+                <script>
+                    alert('".$this->getErro()[0]."');
+                    window.location.href = '".DIRPAGE."/contato';
+                </script>
+            ";
+            exit;
+        } else {
+            echo "
+                <script>
+                    alert('Confirmação efetuada com sucesso');
+                    window.location.href = '" . DIRPAGE . "/login';
+                </script>
+            ";
+        }
+    }
 }

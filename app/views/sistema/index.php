@@ -1,6 +1,6 @@
 <?php if(!defined('DIRREQ')) exit; ?>
 
-<?php require_once VIEWS . 'admin/header.php' ?>
+<?php Src\Core\Layout::setHead('includes/header'); ?>
 	<main class="fundo">
 		<div class="container">
 			<h1 class="titulo-login">Admin</h1>

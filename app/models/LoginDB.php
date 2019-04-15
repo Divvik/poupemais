@@ -8,6 +8,8 @@ use PDO;
 use Src\Core\ClassCrud;
 use Src\Core\Session;
 use Src\Core\GetIp;
+use Exception;
+use Src\Core\TrataErro;
 
 class LoginDB extends ClassCrud
 {   
@@ -112,5 +114,79 @@ class LoginDB extends ClassCrud
     public function deleteAttempt()
     {
         $this->deleteDB("tentativas","ip = ?",array($this->getIp)); 
+    }
+    # Verifica o status de confirmação
+    public function statusConfirmation($email)
+    {
+        try {
+            $query = $this->selectDB(
+                "status",
+                "usuarios",
+                "WHERE email = ? AND status = 'confirmar'",
+                array($email)
+            );
+            $row = $query->rowCount();
+            if($row > 0){
+                return $row;
+            } else {
+                return false;
+            }
+
+        } catch (Exception $e) {
+            TrataErro::setErroExeption($e);
+        }
+    }
+    # Confirmação de cadastro
+    public function selectConfirmation($arrData)
+    {
+        try {
+            $query = $this->selectDB(
+                "*",
+                "confirmation",
+                "WHERE email = ? AND token = ?",
+                array(
+                    $arrData['email'],
+                    $arrData['token']
+                )
+            );
+            $row = $query->rowCount();
+            if($row > 0) {
+                return $row;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            TrataErro::setErroExeption($e);
+        }
+    }
+    # Deleta conformação
+    public function deleteConfirmation($arrData)
+    {
+        try {
+            $this->deleteDB("confirmation",
+                "email = ? AND token = ?",
+                array(
+                    $arrData['email'],
+                    $arrData['token']
+                )
+            );
+        } catch (Exception $e) {
+            TrataErro::setErroExeption($e);
+        }
+    }
+
+    # Update tabela usuario confirmation
+    public function updateConfirmation($email)
+    {
+        try {
+            $this->updateDB(
+                "usuarios",
+                "status = 'confirmado'",
+                "email = ?",
+                array($email)
+            );
+        } catch (Exception $e) {
+            TrataErro::setErroExeption($e);
+        }
     }
 }

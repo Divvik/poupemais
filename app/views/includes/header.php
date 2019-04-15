@@ -9,6 +9,7 @@
 	<meta name="keywords" content="<?= $this->getKeywords()?>">
 	<meta name="description" content="<?= $this->getDescription()?>"> 
 	<title><?= $this->getTitle()?></title>
+	<!-- Style Sheet -->
 	<link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700" rel="stylesheet">
 	<link rel="stylesheet" href="<?= DIRCSS . 'style.css'; ?>">
 </head>
