@@ -8,13 +8,16 @@ use ZxcvbnPhp\Zxcvbn;
 use App\Models\LoginDB;
 use App\Controllers\LoginController;
 use Src\Core\Mail;
+use Exception;
+use Src\Core\TrataErro;
+
 # Classe Cadastrar
 class ValidarController
 {   
     private $erro = [];
     private $cadastroDB;
     private $mail;
-
+    private $loginDB;
     # Erros
     private $dadosNull = NULL;
     private $captchaErro = NULL;
@@ -27,6 +30,7 @@ class ValidarController
     {
         # Instancia da Class CadastrarDB
         $this->cadastroDB = new CadastrarDB;
+        $this->loginDB = new LoginDB();
         $this->mail = new Mail();
     }
     
@@ -202,9 +206,9 @@ class ValidarController
         $assunto .= "<h2>Confirmação de Cadastro</h2>";
         $assunto .= "Sr(a) <strong>" . $arraVar["nome"] . "</strong>,";
         $assunto .= "<p>A equipe Poupemais agradece por acreditar em nosso trabalho!</p>";
-        $assunto .= "<p>Favor antes de efetuar o seu primeiro login, precisamos que Sr(a) confime seu cadastro.</p><br>";
+        $assunto .= "<p>Favor confirmar cadastro em até 5 dias após o cadastro.</p><br>";
         $assunto .= "<p>Abaixo segue o link para a confirmação!</p>";
-        $assunto .= "Confirme seu email <a href=". DIRPAGE ."controllers/ConfirmacaoController/{$arraVar['email']}/{$arraVar['token']}>clicando aqui<a/>";
+        $assunto .= "Confirme seu email <a href=". DIRPAGE ."/login/confirmation/{$arraVar['email']}/{$arraVar['token']}>clicando aqui<a/>";
         $assunto .= "<br><br><br>";
         $assunto .= "Att,<br> Poupemais<br>Tel. 11-2222-2222<br>E-mail: contato@poupemais.com";
         
@@ -284,5 +288,34 @@ class ValidarController
             array_push($dataVencimento, $dado); 
         }
         return $dataVencimento;
+    }
+
+    # Validação de confirmação de cadastro
+    public function validateConfirmation(loginController $loginController, $email,$token)
+    {   
+        $arrData = [
+            "email" => $email,
+            "token" => $token
+        ];
+        try {
+            $status = $this->loginDB->statusConfirmation($arrData['email']);
+            if($status > 0) {
+                $row = $this->loginDB->selectConfirmation($arrData);                
+                if($row > 0){
+                    $this->loginDB->deleteConfirmation($arrData);
+                    $this->loginDB->updateConfirmation($arrData['email']);
+                    return $status;
+                } else {
+                    $loginController->setErro('Cadastro não confirmado, entre em contato com a Poupemais.');
+                    return false;
+                }
+            } else {
+                $loginController->setErro('Cadastro já confirmado!');
+                return false;
+            }
+        } catch (Exception $e) {
+            TrataErro::setErroExeption($e);
+        }
+        
     }
 }

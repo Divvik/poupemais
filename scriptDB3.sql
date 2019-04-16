@@ -179,7 +179,7 @@ DESC CLIENTES;
 select * FROM confirmation;
 
 SELECT * FROM usuarios; 
-UPDATE usuarios SET status = 'confirmado' WHERE id = 1; 
+UPDATE usuarios SET status = 'confirmar' WHERE email = 'fernandoestevam23@gmail.com'; 
 /* USUARIO */
 /*
 
